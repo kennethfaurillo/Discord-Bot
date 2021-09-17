@@ -3,37 +3,65 @@ import re
 import youtube_dl
 import os
 from discord import ClientException
-
+play_status = 0 # 0 - stopped/no song, 1 - playing, 2 - paused
 from ytsearch import yt_search
 from discord.ext import commands
 
 # client = discord.Client()
 client = commands.Bot(command_prefix='`')
 
-
 @client.command()
-async def play(ctx, keyword=''):
+async def play(ctx, *args):
+    song = os.path.isfile('song.mp3')
+    keyword = ' '.join(args)
+    try:
+        if song:
+            os.remove("song.mp3")
+    except PermissionError:
+        global play_status
+        if play_status == 1:
+            await ctx.send("nag pplay na baga")
+        return
     if not keyword.strip(' '):
         await ctx.send("ha ano ipplay ko?")
         return
+    # try:
+    #     voice_channel = discord.utils.get(ctx.guild.voice_channels, name="General")#name=str(ctx.author.voice.channel))
+    # except AttributeError:
+    #     await ctx.send('bruh join ka muna voice channel lol')
+    #     return
+    voice_channel = discord.utils.get(ctx.guild.voice_channels, name="General")#name=str(ctx.author.voice.channel))
     try:
-        voice_channel = ctx.author.voice.channel
-    except AttributeError:
-        await ctx.send('bruh join ka muna voice channel lol')
-        return
-    voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-    await ctx.channel.send(yt_search(keyword))  # message.channel.send("bruh")
-    print(voice_channel)
-    if not voice:
         await voice_channel.connect()
-    # except ClientException:
-    #     print('Already Connected!')
-    print('oks')
+    except ClientException:
+        pass
+    voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
+    song_url = yt_search(keyword)
+    await ctx.send(song_url)
+    print(song_url)
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192'
+        }]
+    }
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([song_url])
+    for file in os.listdir("./"):
+        if file.endswith(".mp3"):
+            os.rename(file, "song.mp3")
+    print('song start')
+    play_status = 1
+    voice.play(discord.FFmpegPCMAudio("song.mp3"))
+    print('song end')
 
 
 @client.command()
 async def leave(ctx):
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
+    print(voice)
     if voice:
         await voice.disconnect()
         await ctx.send("kbye")
