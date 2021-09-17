@@ -29,4 +29,4 @@ async def on_message(message):
         await message.channel.send(ka_man[0] + " ka man")
 
 
-client.run('ODg4MzYzNDE5NjQ2OTg0MjIy.YURm6A.se-nXYyhTAxzM1r7dlXYQe_H2pM')
+client.run('ODg4MzYzNDE5NjQ2OTg0MjIy.YURm6A.ajqhThM9Tm05f5ni718vrS9LauA')
