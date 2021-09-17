@@ -23,7 +23,7 @@ async def on_message(message):
             await message.channel.send(reply)
 
     # Auto replies lol
-    ka_man = re.search(r'hi|hello|hoy|pota|hayop|cute|makanos|test|mama mo', msg)
+    ka_man = re.search(r'hi|hello|hai|hoy|pota|hayop|cute|makanos|test|mama mo', msg)
     if ka_man is not None:
         print(ka_man[0] + " ka man")
         await message.channel.send(ka_man[0] + " ka man")
