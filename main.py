@@ -2,20 +2,21 @@ import discord
 import re
 import youtube_dl
 import os
-from discord import ClientException
-from ytsearch import yt_search
 import time
 import random
 from discord.ext import commands
+from ytsearch import yt_search
 
 
-play_status = 0 # 0 - stopped/no song, 1 - playing, 2 - paused
+play_status = 0  # 0 - stopped/no song, 1 - playing, 2 - paused
 to_reply = False
 
-# client = discord.Client()
-client = commands.Bot(command_prefix='`')
+queue = []
 
-@client.command()
+client = commands.Bot(command_prefix='\'')
+
+
+@client.command(name="Play", brief="`p or `play  |  Plays a song or adds to queue", aliases=['p', 'P', "play"])
 async def play(ctx, *args):
     song_dir = os.path.abspath(os.getcwd()) + "\\songs"
     keyword = ' '.join(args)
@@ -38,13 +39,17 @@ async def play(ctx, *args):
     voice = ctx.voice_client
 
     start = time.time()
-    song_url = yt_search(keyword)
+    try:
+        song_url, song_title = await yt_search(keyword)
+    except AttributeError:
+        await ctx.send("sowi di ko mahanap 😢")
+        return
     print(time.time() - start)
     await ctx.send(song_url)
 
     print(song_url)
     ydl_opts = {
-        'format': 'bestaudio/best',
+        'format': 'bestaudio',
         'outtmpl': 'songs/%(id)s.%(ext)s',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
@@ -61,7 +66,26 @@ async def play(ctx, *args):
             await ctx.channel.purge(limit=1)
     play_status = 1
     # add try except, if except, add to queue
-    voice.play(discord.FFmpegPCMAudio(song_dir+"\\"+song_url[-11:]+'.mp3'), after=print("tapos na po"))
+    voice.play(discord.FFmpegPCMAudio(song_dir+"\\"+song_url[-11:]+'.mp3'))
+
+
+@client.command()
+async def test_song(ctx):
+
+    if ctx.author.voice is None:
+        await ctx.send('bruh join ka muna voice channel lol')
+        return
+    voice_channel = ctx.author.voice.channel
+    if ctx.voice_client is None:
+        await voice_channel.connect()
+    else:
+        await ctx.voice_client.move_to(voice_channel)
+    voice = ctx.voice_client
+
+    ydl_opts = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        song_url = ydl.extract_info("https://www.youtube.com/watch?v=5qap5aO4i9A", download=False)['formats'][0]['url']
+    voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **ydl_opts))
 
 
 @client.command()
@@ -107,14 +131,25 @@ async def stop(ctx):
     play_status = 0
 
 
+async def auto_reply(ctx, msg):
+    ka_man = re.search(r'hi|hello|hai|hoy|pota|hayop|cute|makanos|test', msg)
+    global to_reply
+    if ka_man is not None:
+        await ctx.send(ka_man[0] + " ka man")
+        to_reply = False
+    if to_reply:
+        await ctx.send(random.choice(["ge", "bala ka", "oks", ".", "👍"]))
+        to_reply = False
+
+
 @client.event
 async def on_message(message):
     msg = message.content.lower()
-    ctx = await client.get_context(message)
     if message.author == client.user:
+        print("replied: "+msg)
         return
     global to_reply
-    print('message',message.author, msg)  # debugging purposes
+    print(str(message.author)[:-5]+': '+msg)  # debugging purposes
     if msg.startswith('<@!888363419646984222>'):
         if re.search(r'delete', msg):
             await message.channel.purge(limit=2)
@@ -124,23 +159,14 @@ async def on_message(message):
             if str(message.author) == "kennethfau#9317":
                 reply = "ano po boss"
             else:
-                reply += ' ' + str(message.author)[:-5]
+                reply += ' ' + "<@"+str(message.author.id)+">"
             to_reply = True
         else:
             reply = 'oks'
         await message.channel.send(reply)
         return
-
-    # Auto replies lol
-    ka_man = re.search(r'hi|hello|hai|hoy|pota|hayop|cute|makanos|test', msg)
-    if ka_man is not None:
-        print(ka_man[0] + " ka man")
-        await message.channel.send(ka_man[0] + " ka man")
-        to_reply = False
-    if to_reply:
-        await message.channel.send(random.choice(["ge", "bala ka", "oks", ".", "👍"]))
-        to_reply = False
+    await auto_reply(await client.get_context(message), msg)
     await client.process_commands(message)
 
-
+print("Bot Live")
 client.run('ODg4MzYzNDE5NjQ2OTg0MjIy.YURm6A.ajqhThM9Tm05f5ni718vrS9LauA')
