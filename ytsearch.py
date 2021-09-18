@@ -18,8 +18,8 @@ async def yt_search(keyword):
             html = await resp.text()
     video_id = re.search(r"watch\?v=(\S{11})", html).group()[-11:]
     url_first_result = "https://www.youtube.com/watch?v="+video_id
-    title = re.search(r"{\"text\":\"(.+?)(?=\")", html).group(1)
-    return url_first_result, title
+    # title = re.search(r"{\"text\":\"(.+?)(?=\")", html).group(1)
+    return url_first_result  #, title
 
 
 def yt_search_sync(keyword):

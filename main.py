@@ -1,7 +1,6 @@
 import discord
 import re
 import youtube_dl
-import os
 import time
 import random
 from discord.ext import commands
@@ -18,11 +17,10 @@ client = commands.Bot(command_prefix='\'')
 
 @client.command(name="Play", brief="`p or `play  |  Plays a song or adds to queue", aliases=['p', 'P', "play"])
 async def play(ctx, *args):
-    song_dir = os.path.abspath(os.getcwd()) + "\\songs"
     keyword = ' '.join(args)
     if not keyword.strip(' '):
         global play_status
-        if play_status == 2:
+        if play_status == 2:  # works like resume when used on its own, e.g., 'play or 'p
             await resume(ctx)
             return
         await ctx.send("ha ano ipplay ko?")
@@ -40,52 +38,22 @@ async def play(ctx, *args):
 
     start = time.time()
     try:
-        song_url, song_title = await yt_search(keyword)
+        video_url = await yt_search(keyword)
     except AttributeError:
         await ctx.send("sowi di ko mahanap 😢")
         return
+    with youtube_dl.YoutubeDL({"source_address": "0.0.0.0"}) as ydl:  # forces ipv4
+        song_url = ydl.extract_info(video_url, download=False)['formats'][0]['url']
     print(time.time() - start)
-    await ctx.send(song_url)
-
+    await ctx.send(video_url)
+    print(video_url)
     print(song_url)
-    ydl_opts = {
-        'format': 'bestaudio',
-        'outtmpl': 'songs/%(id)s.%(ext)s',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }]
-    }
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        if os.path.isfile(song_dir+"\\"+song_url[-11:]+'.mp3'):
-            print('local copy found!')
-        else:
-            await ctx.send('wait lang nag ddownload pa')
-            ydl.download([song_url])
-            await ctx.channel.purge(limit=1)
+
+    ffmpeg_opts = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+    # Allow ffmpeg to reconnect
     play_status = 1
     # add try except, if except, add to queue
-    voice.play(discord.FFmpegPCMAudio(song_dir+"\\"+song_url[-11:]+'.mp3'))
-
-
-@client.command()
-async def test_song(ctx):
-
-    if ctx.author.voice is None:
-        await ctx.send('bruh join ka muna voice channel lol')
-        return
-    voice_channel = ctx.author.voice.channel
-    if ctx.voice_client is None:
-        await voice_channel.connect()
-    else:
-        await ctx.voice_client.move_to(voice_channel)
-    voice = ctx.voice_client
-
-    ydl_opts = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        song_url = ydl.extract_info("https://www.youtube.com/watch?v=5qap5aO4i9A", download=False)['formats'][0]['url']
-    voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **ydl_opts))
+    voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **ffmpeg_opts), after=None)
 
 
 @client.command()
