@@ -1,3 +1,4 @@
+import os
 import discord
 import re
 import youtube_dl
@@ -178,6 +179,11 @@ async def auto_reply(ctx, msg):
 
 
 @client.event
+async def on_ready():
+    print(str(client.user)+" Live")
+
+
+@client.event
 async def on_message(message):
     msg = message.content.lower()
     if message.author == client.user:
@@ -203,5 +209,4 @@ async def on_message(message):
     await auto_reply(await client.get_context(message), msg)
     await client.process_commands(message)
 
-print("Bot Live")
-client.run('ODg4MzYzNDE5NjQ2OTg0MjIy.YURm6A.ajqhThM9Tm05f5ni718vrS9LauA')
+client.run(os.getenv("TOKEN"))
