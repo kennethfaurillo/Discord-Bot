@@ -1,10 +1,10 @@
 import os
 import discord
 import re
-import youtube_dl
 import random
 import asyncio
 
+from pytube import YouTube
 from discord.ext import commands
 from ytsearch import yt_search
 
@@ -12,51 +12,40 @@ from ytsearch import yt_search
 play_status = 0  # 0 - stopped/no song, 1 - playing, 2 - paused
 to_reply = False
 
+ffmpeg_opts = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 3', 'options': '-vn'}
 play_list = []
 now_playing = ''
 server = ''
 
+
 client = commands.Bot(command_prefix='`')
 
 
-def song_done(ctx):
-    coro = test(ctx)
+def song_done_check(ctx):
+    coro = song_done(ctx)
     fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
     try:
         fut.result()
     except:
         print('nag error')
-        raise
+        leave(ctx)
 
 
-async def test(ctx):
+async def song_done(ctx):
     print('tapos na po')
     if play_list:
         await play(ctx, autoplay=True)
+    else:
+        print("playlist done")
+        global play_status
+        play_status = 0
 
 
-@client.command(name="Play", brief="-    `p or `play  ", aliases=['p', 'P', "play"])
-async def play(ctx, *args, autoplay=False):
-    print('play')
+@client.command(name="Join", brief="    -    `join", aliases=['join'])
+async def join(ctx):
     if ctx.author.voice is None:
         await ctx.send('bruh join ka muna voice channel lol')
         return
-
-    global play_status
-    if args:
-        global now_playing
-        if not play_list:
-            check = await queue(ctx, *args, no_message=True)
-        else:
-            check = await queue(ctx, *args, no_message=False)
-        if check == -1 or play_status == 1:
-            return
-    else:
-        if play_status and not autoplay:
-            if play_status == 2:
-                print('resume via play')
-                await resume(ctx)
-            return
 
     voice_channel = ctx.author.voice.channel
     if ctx.voice_client is None:
@@ -64,8 +53,36 @@ async def play(ctx, *args, autoplay=False):
     else:
         await ctx.voice_client.move_to(voice_channel)
     voice = ctx.voice_client
+    return voice
 
-    ffmpeg_opts = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+
+@client.command(name="Play", brief="    -    `p | `play", aliases=["play", 'p', 'P'])
+async def play(ctx, *args, autoplay=False):
+    if ctx.author.voice is None:
+        await ctx.send('bruh join ka muna voice channel lol')
+        return
+
+    global play_status
+    global now_playing
+    if args:
+        if not play_list and not now_playing:
+            check = await queue(ctx, *args, no_message=True)
+        else:
+            check = await queue(ctx, *args, no_message=False)
+        if check == -1 or play_status == 1:
+            return
+    else:
+        if not play_list and not now_playing:
+            await ctx.send("ano man ipplay ko")
+            return
+        if play_status and not autoplay:
+            if play_status == 2:
+                print('resume via play')
+                await resume(ctx)
+            return
+
+    voice = await join(ctx)
+
     # Allow ffmpeg to reconnect
 
     play_status = 1
@@ -81,12 +98,12 @@ async def play(ctx, *args, autoplay=False):
     try:
         embed = discord.Embed(title=f'Now Playing:    {now_playing}')
         await ctx.send(embed=embed)
-        voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **ffmpeg_opts), after=lambda _: song_done(ctx))
+        voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **ffmpeg_opts), after=lambda _: song_done_check(ctx))
     except discord.errors.ClientException:
         pass
 
 
-@client.command(name='Queue', brief="-    `q | `queue ", aliases=['queue', 'q'])
+@client.command(name='Queue', brief="    -    `q | `queue ", aliases=['queue', 'q'])
 async def queue(ctx, *args, no_message=False):
     """
     Previews song queue (only yt links for now)
@@ -112,22 +129,23 @@ async def queue(ctx, *args, no_message=False):
     except AttributeError:
         await ctx.send("sowi di ko mahanap 😢")
         return -1
-    with youtube_dl.YoutubeDL({"source_address": "0.0.0.0"}) as ydl:  # forces ipv4
-        inf = ydl.extract_info(video_url, download=False)
-        song_url = inf['formats'][0]['url']
-        song_title = inf['title']
+
+    yt = YouTube(video_url)
+    song_url = yt.streaming_data.get('hlsManifestUrl') or yt.streams.get_audio_only().url
+    song_title = yt.title
     print(video_url, '\n', song_title)
+    print(song_url)
 
-    await ctx.send(video_url, delete_after=5.0)
+    await ctx.send(video_url, delete_after=7.5)
 
-    embed = discord.Embed(title=f"Added {song_title} to queue")
+    embed = discord.Embed(title=f"Added:    {song_title} to queue")
     if not no_message:
         await ctx.send(embed=embed)
     play_list.append([song_title, song_url])
     return song_url
 
 
-@client.command(name='Leave', brief="-    `leave | `disconnect", aliases=['leave', 'disconnect'])
+@client.command(name='Leave', brief="    -    `leave | `disconnect", aliases=['leave', 'disconnect'])
 async def leave(ctx):
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
     if voice:
@@ -140,52 +158,84 @@ async def leave(ctx):
         await ctx.send("kbye")
 
 
-@client.command(name='Pause', brief="-    `pause ", aliases=['pause'])
+@client.command(name='Pause', brief="    -    `pause ", aliases=['pause'])
 async def pause(ctx):
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-    try:
-        if voice.is_playing():
-            voice.pause()
-            global play_status
+    if not voice:
+        await ctx.send("ano man ipapause ko")
+
+    if voice.is_paused():
+        await ctx.send("naka pause na baga")
+        return
+    elif voice.is_playing():
+        voice.pause()
+        global play_status
         play_status = 2
         embed = discord.Embed(title=f"Paused:    {now_playing}")
         await ctx.send(embed=embed)
-    except discord.ext.commands.errors.CommandInvokeError:
-        await ctx.send("nothing's playing")
-        return
 
 
-@client.command(name='Resume', brief="-    `resume | `res ", aliases=['resume', 'res'])
+@client.command(name='Resume', brief="    -    `resume | `res ", aliases=['resume', 'res'])
 async def resume(ctx):
     global play_status
-    if play_status == 0:
-        await ctx.send("ano man ireresume mo")
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
+    if not voice:
+        await ctx.send("ano man ireresume ko")
     if voice.is_paused():
         voice.resume()
         play_status = 1
-        await ctx.channel.purge(limit=2)
-        await now_playing(ctx)
+        await nowplaying(ctx)
+    elif voice.is_playing():
+        await ctx.send("nag pplay na baga")
     else:
-        if not play_status:
-            await ctx.send("no song to play")
-        else:
-            await ctx.send("audio is not paused")
+        print('bug')
 
 
-@client.command(name='Skip', brief="-    `skip | `s", aliases=['skip', 's'])
-async def skip(ctx):
-    global play_status
+@client.command(name='Skip', brief="    -    `skip | `s", aliases=['skip', 's'])
+async def skip(ctx, *args, message=True):
+    if args:
+        await jump(ctx, *args)
+        return
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
+    global now_playing
+    if voice and (voice.is_playing() or voice.is_paused()):
+        if message:
+            embed = discord.Embed(title=f"Skipping {now_playing}")
+            await ctx.send(embed=embed)
+        voice.stop()
+        now_playing = ''
+        # play_status = 2 # changed
+    else:
+        await ctx.send("ano isskip ko")
 
 
-@client.command(name="Now Playing", brief="-    `np | `NP  ", aliases=['np', 'NP'])
-async def now_playing(ctx):
+@client.command(name='Jump', brief="    -    `j | `jump | `goto", aliases=['jump', 'goto', 'j'])
+async def jump(ctx, song_index=''):
+    global play_list
+    if song_index == '':
+        await ctx.send("gib number plx")
+        return
+    try:
+        voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
+
+        # song_removed = play_list.pop(int(song_index)-1)[0]
+        play_list = play_list[int(song_index)-1:]
+        embed = discord.Embed(title="Skipping to "+play_list[0][0])
+        await ctx.send(embed=embed)
+        if voice:
+            await skip(ctx, message=False)
+    except IndexError:
+        await ctx.send("uda man "+song_index)
+    # if jump 1, just send to skip (same behavior maybe no message, maybe include it)
+
+
+@client.command(name="Now Playing", brief="    -    `np | `NP  ", aliases=['np', 'NP'])
+async def nowplaying(ctx):
     embed = discord.Embed(title=f'Now Playing:    {now_playing}')
-    await ctx.send(embed=embed, delete_after=5.0)
+    await ctx.send(embed=embed, delete_after=7.5)
 
 
-@client.command(name="Remove", brief="-    `remove | `r  ", aliases=['remove', 'r', 'R'])
+@client.command(name="Remove", brief="    -    `remove | `r  ", aliases=['remove', 'r', 'R'])
 async def remove(ctx, song_index=''):
     if song_index == '':
         await ctx.send("???")
@@ -197,14 +247,14 @@ async def remove(ctx, song_index=''):
         await ctx.send("uda man "+song_index)
 
 
-@client.command(name="Commands", brief="-    Shows this message", aliases=['commands'])
+@client.command(name="Commands", brief="    -    Shows this message", aliases=['commands'])
 async def _commands(ctx):
     await ctx.send_help()
 
 
 @client.event
 async def auto_reply(ctx, msg):
-    ka_man = re.search(r'\bhi|hello|hai|hoy|pota|hayop|cute|makanos|test|patal\b', msg)
+    ka_man = re.search(r'\bhi|hello|hai|hoy|pota|hayop|cute|magayon|pogi|gwapo|makanos|chaka|test|patal\b', msg)
     global to_reply
     if ka_man is not None:
         await ctx.send(ka_man[0] + " ka man")
