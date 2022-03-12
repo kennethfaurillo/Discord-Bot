@@ -13,7 +13,6 @@ async def yt_search(**kwargs):
         api_service_name, api_version, developerKey=developer_key)
 
     keyword = kwargs.get('keyword')
-    print(keyword)
     if keyword:
         keyword = '+'.join(keyword.split())
         async with aiohttp.ClientSession() as session:
