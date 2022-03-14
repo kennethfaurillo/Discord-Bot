@@ -52,7 +52,7 @@ class MusicPlayer(commands.Cog):
     async def play_helper(self, ctx, watch_url):
         voice = ctx.voice_client
         try:
-            song_url = YoutubeDL().extract_info(watch_url, download=False)['formats'][0]['url']
+            song_url = YoutubeDL({"cookiefile":"ytcookies.txt"}).extract_info(watch_url, download=False)['formats'][0]['url']
             voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **self.ffmpeg_opts),
                        after=lambda _: self.song_done_check(ctx))
             embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"]}')
@@ -289,7 +289,10 @@ class MusicPlayer(commands.Cog):
 
     @commands.command(name="Now Playing", brief="    -    `np | `NP  ", aliases=['np', 'NP'])
     async def nowplaying(self, ctx):
-        embed = discord.Embed(title=f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np']}")
+        if not self.guild_tracker[ctx.guild.id]['np']:
+            embed = discord.Embed(title=f"Uda nagpplay")
+        else:
+            embed = discord.Embed(title=f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np']}")
         await ctx.send(embed=embed, delete_after=15)
 
     @commands.command(name="Remove", brief="    -    `remove | `rm | `r  ", aliases=['remove', 'r', 'R', 'rm'])
@@ -340,7 +343,12 @@ class MusicPlayer(commands.Cog):
     @commands.Cog
     async def on_ready(self):
         print(str(self.client.user) + " Live")
-
+      
+    @commands.command(name="say")
+    async def say(self, ctx, message):
+        if str(ctx.message.author) != "kennethfau#9316":
+            return
+        await ctx.send(message)
 
 def setup(client):
     client.add_cog(MusicPlayer(client))

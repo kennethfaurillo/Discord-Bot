@@ -1,0 +1,559 @@
+cerby_test_bot#2493 Live
+
+test_server: kennethfau: 123
+test_server: kennethfau: test
+test_server: cerby_test_bot: test ka man
+cerby_test_bot#2493 Live
+
+
+cerby_test_bot#2493 Live
+
+
+cerby_test_bot#2493 Live
+
+
+cerby_test_bot#2493 Live
+
+test_server@08:17 PM: kennethfau#9316: test
+test_server@08:17 PM: cerby_test_bot#2493: test ka man
+
+cerby_test_bot#2493 Live
+
+cerby college edition 🐾@05:57 AM: kennethfau#9316: Test
+cerby college edition 🐾@05:57 AM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@05:58 AM: kennethfau#9316: Uya na haha
+cerby college edition 🐾@05:58 AM: kennethfau#9316: Patal <@888363419646984222>
+cerby college edition 🐾@05:58 AM: cerby_test_bot#2493: patal ka man
+cerby college edition 🐾@05:58 AM: Potyong#4792: `p creep radiohead
+cerby college edition 🐾@05:58 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=XFkzRNyygfk
+cerby college edition 🐾@05:58 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@05:58 AM: Zoldyck#8583: <@!888363419646984222> gusto mong mawaran trabaho?
+cerby college edition 🐾@05:58 AM: cerby_test_bot#2493: ah
+cerby college edition 🐾@06:01 AM: Zoldyck#8583: `p your universe
+cerby college edition 🐾@06:01 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=3fRHgX8I230
+cerby college edition 🐾@06:01 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:02 AM: Zoldyck#8583: `p Rico Blanco - Your Universe (Lyric Video)
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=DjVKXxWlCQQ
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:02 AM: Zoldyck#8583: `p truth bamboo
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=dT0IAbTOu7U
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:02 AM: Zoldyck#8583: `s
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:02 AM: kennethfau#9316: `q
+cerby college edition 🐾@06:02 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:03 AM: kennethfau#9316: `commands
+cerby college edition 🐾@06:03 AM: cerby_test_bot#2493: ```
+MusicPlayer:
+  Clear           -    `clear
+  Commands        -    Shows this message
+  Join            -    `join
+  Jump            -    `j | `jump | `goto
+  Move            -    `mv | `move
+  Now Playing     -    `np | `NP  
+  Pause           -    `pause 
+  Play            -    `p | `play
+  Queue           -    `q | `queue 
+  Remove          -    `remove | `rm | `r  
+  Resume          -    `resume | `res 
+  Servers         -    Shows the servers the bot is currently playing for
+  Shuffle         -    `shuffle
+  Skip            -    `skip | `next | `s
+  Stop            -    `stop | `leave | `disconnect
+​No Category:
+  help        Shows this message
+
+Type `help command for more info on a command.
+You can also type `help category for more info on a category.
+```
+cerby college edition 🐾@06:03 AM: Zoldyck#8583: `ty
+cerby college edition 🐾@06:05 AM: Zoldyck#8583: `p will you ever learn
+cerby college edition 🐾@06:05 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=mOeCBzgPq6s
+cerby college edition 🐾@06:05 AM: cerby_test_bot#2493: 
+test_server@06:06 AM: kennethfau#9316: 'servers
+cerby college edition 🐾@06:06 AM: Zoldyck#8583: `p masaya bamboo
+cerby college edition 🐾@06:06 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=aglcHT5zXz8
+cerby college edition 🐾@06:06 AM: cerby_test_bot#2493: 
+test_server@06:06 AM: kennethfau#9316: `servers
+test_server@06:06 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:06 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:07 AM: Zoldyck#8583: `lyrics
+cerby college edition 🐾@06:07 AM: Zoldyck#8583: `show lyrics
+cerby college edition 🐾@06:07 AM: Zoldyck#8583: <@!888363419646984222>  dae mo yan aram??
+cerby college edition 🐾@06:07 AM: cerby_test_bot#2493: ge
+cerby college edition 🐾@06:10 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:11 AM: Zoldyck#8583: `p if bamboo
+cerby college edition 🐾@06:11 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=R7ZYJb2-glA
+cerby college edition 🐾@06:11 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:12 AM: Zoldyck#8583: `p 214
+cerby college edition 🐾@06:12 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=HL8pbO3Ryc8
+cerby college edition 🐾@06:12 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:13 AM: Zoldyck#8583: `p borrowed time
+cerby college edition 🐾@06:13 AM: MEE6#4876: AFOOFA <@749148611534782515>, you just advanced to level 7! Competitive ka gorl???
+cerby college edition 🐾@06:13 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=2ggz0CVYMoI
+cerby college edition 🐾@06:13 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:13 AM: Zoldyck#8583: `p upside down
+cerby college edition 🐾@06:13 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=GIAtE6ywgwA
+cerby college edition 🐾@06:13 AM: Zoldyck#8583: `q
+cerby college edition 🐾@06:13 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:13 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:13 AM: Zoldyck#8583: `r 5
+cerby college edition 🐾@06:13 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:14 AM: Zoldyck#8583: `p upside down 6cycle
+cerby college edition 🐾@06:14 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=iszHML2QBkA
+cerby college edition 🐾@06:14 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:14 AM: Potyong#4792: `join
+cerby college edition 🐾@06:14 AM: Potyong#4792: `j
+cerby college edition 🐾@06:14 AM: cerby_test_bot#2493: gib number plx
+cerby college edition 🐾@06:14 AM: Potyong#4792: `j 2
+cerby college edition 🐾@06:14 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:14 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:16 AM: Zoldyck#8583: `q
+cerby college edition 🐾@06:16 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:16 AM: Zoldyck#8583: `p masaya bamboo
+cerby college edition 🐾@06:16 AM: cerby_test_bot#2493: sowi di ko mahanap 😢
+cerby college edition 🐾@06:16 AM: Zoldyck#8583: `p Bamboo-Masaya Lyrics
+cerby college edition 🐾@06:16 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=WMcMOKHJsVU
+cerby college edition 🐾@06:16 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:20 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:25 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:29 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:34 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:49 AM: Zoldyck#8583: `p linkin park leave it all
+cerby college edition 🐾@06:49 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=yZIummTz9mM
+cerby college edition 🐾@06:49 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@06:54 AM: kennethfau#9316: `q
+cerby college edition 🐾@06:54 AM: cerby_test_bot#2493: 
+
+cerby_test_bot#2493 Live
+
+cerby college edition 🐾@07:14 AM: kennethfau#9316: Test
+cerby college edition 🐾@07:14 AM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@07:14 AM: kennethfau#9316: Mag chat ka daw <@749148611534782515>
+cerby college edition 🐾@07:31 AM: Zoldyck#8583: hi
+cerby college edition 🐾@07:31 AM: cerby_test_bot#2493: hi ka man
+cerby college edition 🐾@07:31 AM: Zoldyck#8583: hmp
+cerby college edition 🐾@07:34 AM: Potyong#4792: `p inda man
+cerby college edition 🐾@07:34 AM: Potyong#4792: test
+cerby college edition 🐾@07:34 AM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@07:34 AM: Potyong#4792: tugtugi man
+cerby college edition 🐾@07:57 AM: Potyong#4792: hello
+cerby college edition 🐾@07:57 AM: cerby_test_bot#2493: hello ka man
+cerby college edition 🐾@07:57 AM: Potyong#4792: `p inda man
+cerby college edition 🐾@08:05 AM: Potyong#4792: `q
+cerby college edition 🐾@09:57 AM: Elway#6048: `p losers
+
+cerby_test_bot#2493 Live
+
+cerby college edition 🐾@10:37 AM: kennethfau#9316: `p lofi live
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=5qap5aO4i9A
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@10:37 AM: kennethfau#9316: `p bruh
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=2ZIpFytCSVc
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@10:37 AM: kennethfau#9316: `q
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@10:37 AM: kennethfau#9316: `j 1
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@10:37 AM: kennethfau#9316: `q
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@10:37 AM: kennethfau#9316: `leave
+cerby college edition 🐾@10:37 AM: cerby_test_bot#2493: kbye
+cerby college edition 🐾@11:00 AM: Zoldyck#8583: test
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:00 AM: Zoldyck#8583: `p inda
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=q4ICEj4d2Ac
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:00 AM: Zoldyck#8583: `s
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:00 AM: Zoldyck#8583: `p inda man nonoy
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=d1BHiqU4kko
+cerby college edition 🐾@11:00 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:02 AM: Zoldyck#8583: `p bicol regional march
+cerby college edition 🐾@11:02 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:02 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=DUyj6erK9r0
+cerby college edition 🐾@11:02 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:03 AM: Zoldyck#8583: `q
+cerby college edition 🐾@11:03 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:03 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:05 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:06 AM: Zoldyck#8583: `p willie revillame joji
+cerby college edition 🐾@11:06 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:06 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=W7ulIypoO4o
+cerby college edition 🐾@11:06 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:07 AM: Potyong#4792: Liga
+cerby college edition 🐾@11:07 AM: Potyong#4792: Hi
+cerby college edition 🐾@11:07 AM: cerby_test_bot#2493: hi ka man
+cerby college edition 🐾@11:07 AM: Potyong#4792: Boto mo
+cerby college edition 🐾@11:07 AM: Zoldyck#8583: madats ang tugtog kads
+cerby college edition 🐾@11:07 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:07 AM: Zoldyck#8583: join ka
+cerby college edition 🐾@11:07 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:07 AM: Potyong#4792: Hikap man ay
+cerby college edition 🐾@11:09 AM: Zoldyck#8583: `p
+cerby college edition 🐾@11:09 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:09 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:11 AM: Zoldyck#8583: <@!888363419646984222> maudos lang ko boss boto ko
+cerby college edition 🐾@11:11 AM: cerby_test_bot#2493: oks
+cerby college edition 🐾@11:23 AM: Zoldyck#8583: <@888363419646984222> ano ka boi haha
+cerby college edition 🐾@11:23 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:50 AM: Elway#6048: `p body
+cerby college edition 🐾@11:50 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=7PBYGu4Az8s
+cerby college edition 🐾@11:50 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:50 AM: Elway#6048: `p body remix tion wayne
+cerby college edition 🐾@11:50 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=BS3HgiHPYcs
+cerby college edition 🐾@11:50 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:50 AM: Elway#6048: `s
+cerby college edition 🐾@11:50 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:50 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:51 AM: Elway#6048: `p oliver twist arrdee
+cerby college edition 🐾@11:51 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=HC7p5PjrC1E
+cerby college edition 🐾@11:51 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:52 AM: Elway#6048: kuya j
+cerby college edition 🐾@11:52 AM: kennethfau#9316: `np
+cerby college edition 🐾@11:52 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:54 AM: Zoldyck#8583: `p bicol regional march
+cerby college edition 🐾@11:54 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:54 AM: cerby_test_bot#2493: https://www.youtube.com/watch?v=DUyj6erK9r0
+cerby college edition 🐾@11:54 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:54 AM: Zoldyck#8583: `q
+cerby college edition 🐾@11:54 AM: cerby_test_bot#2493: boto mo <@749148611534782515>
+cerby college edition 🐾@11:54 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:55 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:58 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@11:58 AM: Potyong#4792: `s
+cerby college edition 🐾@11:58 AM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:00 PM: Potyong#4792: `p al james psg
+cerby college edition 🐾@12:00 PM: MEE6#4876: AFOOFA <@831135476114259988>, you just advanced to level 5! Competitive ka gorl???
+cerby college edition 🐾@12:00 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=IhNifdQf5Oo
+cerby college edition 🐾@12:00 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:05 PM: Potyong#4792: `p neck deep december
+cerby college edition 🐾@12:05 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=8NnQs3EtoqU
+cerby college edition 🐾@12:05 PM: Elway#6048: `p al james gay version
+cerby college edition 🐾@12:05 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=IhNifdQf5Oo
+cerby college edition 🐾@12:05 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:05 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:05 PM: Elway#6048: ano ginigibo kuya p kang ``np`
+cerby college edition 🐾@12:08 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:09 PM: Elway#6048: `p inumaga
+cerby college edition 🐾@12:09 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=nCyVqX5t8m4
+cerby college edition 🐾@12:09 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:10 PM: Potyong#4792: `p 1096 galing
+cerby college edition 🐾@12:10 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=6-GQiZkagpY
+cerby college edition 🐾@12:10 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:12 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:14 PM: Elway#6048: `p https://www.youtube.com/watch?v=9EDZixuODrw&list=RD9EDZixuODrw&start_radio=1
+cerby college edition 🐾@12:14 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=9EDZixuODrw
+cerby college edition 🐾@12:14 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:14 PM: Potyong#4792: `p https://www.youtube.com/watch?v=iZbOKC7IZ-U
+cerby college edition 🐾@12:14 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=zpY7_fFkzmE
+cerby college edition 🐾@12:14 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:17 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:22 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:24 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:39 PM: kennethfau#9316: now playing po
+cerby college edition 🐾@12:39 PM: kennethfau#9316: `np
+cerby college edition 🐾@12:39 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@12:39 PM: kennethfau#9316: `q
+cerby college edition 🐾@12:39 PM: cerby_test_bot#2493: 
+
+cerby_test_bot#2493 Live
+
+test_server@12:45 PM: kennethfau#9316: `p lofi live
+test_server@12:45 PM: cerby_test_bot#2493: bruh join ka muna voice channel lol
+test_server@12:45 PM: kennethfau#9316: `p lofi live
+test_server@12:45 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=5qap5aO4i9A
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: kennethfau#9316: `p bruh
+test_server@12:46 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=2ZIpFytCSVc
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: kennethfau#9316: `q
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: kennethfau#9316: `np
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: kennethfau#9316: `j2
+test_server@12:46 PM: kennethfau#9316: `j 2
+test_server@12:46 PM: cerby_test_bot#2493: ???
+test_server@12:46 PM: kennethfau#9316: `j 1
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: kennethfau#9316: `np
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: kennethfau#9316: `p lofi live
+test_server@12:46 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=5qap5aO4i9A
+test_server@12:46 PM: kennethfau#9316: `np
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: cerby_test_bot#2493: 
+test_server@12:46 PM: kennethfau#9316: `leave
+test_server@12:46 PM: cerby_test_bot#2493: kbye
+test_server@12:46 PM: kennethfau#9316: `np
+test_server@12:46 PM: cerby_test_bot#2493: 
+
+cerby_test_bot#2493 Live
+
+test_server@12:51 PM: kennethfau#9316: test
+test_server@12:51 PM: cerby_test_bot#2493: test ka man
+test_server@12:51 PM: kennethfau#9316: `taram
+
+cerby_test_bot#2493 Live
+
+test_server@12:52 PM: kennethfau#9316: `taram
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@12:52 PM: kennethfau#9316: test
+bawalsikenneth@12:52 PM: cerby_test_bot#2493: test ka man
+bawalsikenneth@12:52 PM: kennethfau#9316: `taram
+bawalsikenneth@12:54 PM: kennethfau#9316: test
+bawalsikenneth@12:54 PM: cerby_test_bot#2493: test ka man
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@12:54 PM: kennethfau#9316: `taram
+bawalsikenneth@12:55 PM: kennethfau#9316: `say
+
+cerby_test_bot#2493 Live
+
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@12:55 PM: kennethfau#9316: `say
+bawalsikenneth@12:55 PM: kennethfau#9316: `say hello
+bawalsikenneth@12:55 PM: cerby_test_bot#2493: hello ka man
+cerby college edition 🐾@12:56 PM: Potyong#4792: `P 5ive me and my brother
+cerby college edition 🐾@12:56 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=10nIDRKqsFY
+cerby college edition 🐾@12:56 PM: cerby_test_bot#2493: 
+bawalsikenneth@12:57 PM: kennethfau#9316: `servers
+bawalsikenneth@12:57 PM: cerby_test_bot#2493: 
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@01:00 PM: kennethfau#9316: test
+bawalsikenneth@01:00 PM: cerby_test_bot#2493: test ka man
+bawalsikenneth@01:00 PM: kennethfau#9316: `say
+bawalsikenneth@01:00 PM: kennethfau#9316: `say hello
+bawalsikenneth@01:00 PM: cerby_test_bot#2493: hello ka man
+bawalsikenneth@01:00 PM: cerby_test_bot#2493: hello
+cerby college edition 🐾@01:01 PM: Elway#6048: `np
+cerby college edition 🐾@01:01 PM: Elway#6048: `p vladdy daddy
+cerby college edition 🐾@01:01 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=LsU9sS0mBxo
+cerby college edition 🐾@01:01 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@01:02 PM: kennethfau#9316: `q
+cerby college edition 🐾@01:02 PM: cerby_test_bot#2493: 
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@01:07 PM: kennethfau#9316: test
+bawalsikenneth@01:07 PM: cerby_test_bot#2493: test ka man
+bawalsikenneth@01:07 PM: kennethfau#9316: `p lofi live
+bawalsikenneth@01:07 PM: cerby_test_bot#2493: bruh join ka muna voice channel lol
+bawalsikenneth@01:07 PM: kennethfau#9316: `p lofi live
+bawalsikenneth@01:07 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=5qap5aO4i9A
+bawalsikenneth@01:07 PM: kennethfau#9316: `np
+bawalsikenneth@01:07 PM: cerby_test_bot#2493: 
+bawalsikenneth@01:07 PM: cerby_test_bot#2493: 
+bawalsikenneth@01:07 PM: kennethfau#9316: `say bruh
+bawalsikenneth@01:07 PM: cerby_test_bot#2493: bruh
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@01:08 PM: kennethfau#9316: `p lofi live
+bawalsikenneth@01:08 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=5qap5aO4i9A
+bawalsikenneth@01:08 PM: cerby_test_bot#2493: 
+bawalsikenneth@01:08 PM: kennethfau#9316: `say
+bawalsikenneth@01:08 PM: kennethfau#9316: `say hello
+bawalsikenneth@01:08 PM: cerby_test_bot#2493: hello
+bawalsikenneth@01:09 PM: kennethfau#9316: `say kaman
+bawalsikenneth@01:09 PM: cerby_test_bot#2493: kaman
+cerby college edition 🐾@01:09 PM: kennethfau#9316: ocakes na haha
+cerby college edition 🐾@01:09 PM: MEE6#4876: AFOOFA <@590514733715685382>, you just advanced to level 13! Competitive ka gorl???
+test_server@01:10 PM: kennethfau#9316: `say hello
+test_server@01:10 PM: cerby_test_bot#2493: hello
+test_server@01:10 PM: kennethfau#9316: test
+test_server@01:10 PM: cerby_test_bot#2493: test ka man
+bawalsikenneth@01:10 PM: kennethfau#9316: `np
+bawalsikenneth@01:10 PM: cerby_test_bot#2493: 
+bawalsikenneth@01:10 PM: kennethfau#9316: `leave
+bawalsikenneth@01:10 PM: cerby_test_bot#2493: kbye
+bawalsikenneth@01:10 PM: kennethfau#9316: `np
+bawalsikenneth@01:10 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@01:10 PM: kennethfau#9316: `p alumni homecoming
+cerby college edition 🐾@01:10 PM: cerby_test_bot#2493: bruh join ka muna voice channel lol
+cerby college edition 🐾@01:11 PM: kennethfau#9316: `p alumni homecoming
+cerby college edition 🐾@01:11 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=jwYNJfxXlsk
+cerby college edition 🐾@01:11 PM: kennethfau#9316: `p
+cerby college edition 🐾@01:11 PM: kennethfau#9316: `q
+cerby college edition 🐾@01:11 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@01:11 PM: kennethfau#9316: `leave
+cerby college edition 🐾@01:11 PM: cerby_test_bot#2493: kbye
+cerby college edition 🐾@01:11 PM: kennethfau#9316: `p alumni homecoming
+cerby college edition 🐾@01:11 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=jwYNJfxXlsk
+cerby college edition 🐾@01:12 PM: kennethfau#9316: `p https://www.youtube.com/watch?v=94YDUu13fP0
+cerby college edition 🐾@01:12 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=Whhje8NU2zI
+cerby college edition 🐾@01:12 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@01:12 PM: kennethfau#9316: `p
+cerby college edition 🐾@01:12 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@01:12 PM: kennethfau#9316: `q
+cerby college edition 🐾@01:12 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@01:13 PM: kennethfau#9316: `np
+cerby college edition 🐾@01:13 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@01:49 PM: Potyong#4792: `p creep
+cerby college edition 🐾@01:49 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=XFkzRNyygfk
+cerby college edition 🐾@02:08 PM: Zoldyck#8583: `p bicol regional march
+cerby college edition 🐾@02:08 PM: cerby_test_bot#2493: bruh join ka muna voice channel lol
+cerby college edition 🐾@02:08 PM: Zoldyck#8583: `p
+cerby college edition 🐾@02:08 PM: Zoldyck#8583: `p bicol regional march
+cerby college edition 🐾@02:08 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=DUyj6erK9r0
+cerby college edition 🐾@02:08 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:09 PM: Potyong#4792: `s
+cerby college edition 🐾@02:09 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:09 PM: Zoldyck#8583: `p bicol regional march
+cerby college edition 🐾@02:09 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=DUyj6erK9r0
+cerby college edition 🐾@02:09 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:09 PM: Potyong#4792: `s
+cerby college edition 🐾@02:09 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:11 PM: Elway#6048: <@!749148611534782515> kuya N
+cerby college edition 🐾@02:13 PM: Zoldyck#8583: `p calming notion
+cerby college edition 🐾@02:13 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=g_vLIAXurig
+cerby college edition 🐾@02:14 PM: Zoldyck#8583: `p
+cerby college edition 🐾@02:14 PM: Zoldyck#8583: test
+cerby college edition 🐾@02:14 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@02:14 PM: Zoldyck#8583: `p
+cerby college edition 🐾@02:14 PM: cerby_test_bot#2493: ano man ipplay ko
+cerby college edition 🐾@02:14 PM: Zoldyck#8583: `p calming notion
+cerby college edition 🐾@02:14 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=g_vLIAXurig
+cerby college edition 🐾@02:15 PM: Elway#6048: `p bambi hippocampus
+cerby college edition 🐾@02:15 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=ntthrYgpOKY
+cerby college edition 🐾@02:15 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:16 PM: Zoldyck#8583: `p
+cerby college edition 🐾@02:16 PM: Elway#6048: ano man saimo baya??
+cerby college edition 🐾@02:16 PM: Zoldyck#8583: pota ka <@!888363419646984222>  hinuhurugak ka na naman
+cerby college edition 🐾@02:16 PM: cerby_test_bot#2493: pota ka man
+cerby college edition 🐾@02:16 PM: Elway#6048: pota ka
+cerby college edition 🐾@02:16 PM: cerby_test_bot#2493: pota ka man
+cerby college edition 🐾@02:16 PM: Zoldyck#8583: `test
+cerby college edition 🐾@02:16 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@02:16 PM: Zoldyck#8583: test
+cerby college edition 🐾@02:16 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@02:16 PM: Zoldyck#8583: test
+cerby college edition 🐾@02:16 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@02:16 PM: Zoldyck#8583: test
+cerby college edition 🐾@02:16 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@02:16 PM: Zoldyck#8583: test
+cerby college edition 🐾@02:16 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@02:17 PM: Elway#6048: `np
+cerby college edition 🐾@02:17 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:17 PM: Potyong#4792: `p 5ive brother
+cerby college edition 🐾@02:17 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=10nIDRKqsFY
+cerby college edition 🐾@02:17 PM: Zoldyck#8583: `commands
+cerby college edition 🐾@02:17 PM: cerby_test_bot#2493: ```
+MusicPlayer:
+  Clear           -    `clear
+  Commands        -    Shows this message
+  Join            -    `join
+  Jump            -    `j | `jump | `goto
+  Move            -    `mv | `move
+  Now Playing     -    `np | `NP  
+  Pause           -    `pause 
+  Play            -    `p | `play
+  Queue           -    `q | `queue 
+  Remove          -    `remove | `rm | `r  
+  Resume          -    `resume | `res 
+  Servers         -    Shows the servers the bot is currently playing for
+  Shuffle         -    `shuffle
+  Skip            -    `skip | `next | `s
+  Stop            -    `stop | `leave | `disconnect
+  say         
+​No Category:
+  help        Shows this message
+
+Type `help command for more info on a command.
+You can also type `help category for more info on a category.
+```
+cerby college edition 🐾@02:17 PM: Zoldyck#8583: `p
+cerby college edition 🐾@02:17 PM: Elway#6048: `pisot
+cerby college edition 🐾@02:18 PM: Hobie#0524: https://media.discordapp.net/attachments/439628156781985792/936148295548534784/616879285411774464.gif
+cerby college edition 🐾@02:18 PM: Zoldyck#8583: `play ungol compilation
+cerby college edition 🐾@02:18 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=yV3kSBwcVbE
+cerby college edition 🐾@02:18 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:19 PM: Potyong#4792: `s
+cerby college edition 🐾@02:19 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@02:28 PM: Potyong#4792: `p https://www.youtube.com/watch?v=jqqImPu9qx0
+cerby college edition 🐾@02:28 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=jqqImPu9qx0
+cerby college edition 🐾@03:02 PM: Zoldyck#8583: `p every woman air supply
+cerby college edition 🐾@03:02 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=s_JNrOGAH0Q
+cerby college edition 🐾@03:02 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@03:03 PM: Zoldyck#8583: `q
+cerby college edition 🐾@03:03 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@03:03 PM: Zoldyck#8583: hayp ka
+cerby college edition 🐾@03:03 PM: Zoldyck#8583: kakalaag ko lang
+cerby college edition 🐾@03:03 PM: Zoldyck#8583: tas uda tulos
+cerby college edition 🐾@03:03 PM: Zoldyck#8583: `p every woman in the world
+cerby college edition 🐾@03:03 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=s_JNrOGAH0Q
+cerby college edition 🐾@03:03 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@03:03 PM: Zoldyck#8583: `p
+cerby college edition 🐾@03:04 PM: Zoldyck#8583: test
+cerby college edition 🐾@03:04 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@03:04 PM: Zoldyck#8583: ta kaya ni
+cerby college edition 🐾@03:04 PM: Zoldyck#8583: garo ka man pirmi sinusubahan
+cerby college edition 🐾@03:04 PM: Zoldyck#8583: `q
+cerby college edition 🐾@03:04 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@03:04 PM: Zoldyck#8583: test
+cerby college edition 🐾@03:04 PM: cerby_test_bot#2493: test ka man
+cerby college edition 🐾@03:04 PM: Zoldyck#8583: `p
+cerby college edition 🐾@03:04 PM: cerby_test_bot#2493: ano man ipplay ko
+cerby college edition 🐾@03:04 PM: Zoldyck#8583: `p every woman in the world
+cerby college edition 🐾@03:04 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=s_JNrOGAH0Q
+cerby college edition 🐾@03:05 PM: Zoldyck#8583: `p
+cerby college edition 🐾@03:05 PM: Zoldyck#8583: `q
+cerby college edition 🐾@03:05 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@03:05 PM: Zoldyck#8583: lapong ka talaga
+bawalsikenneth@03:37 PM: kennethfau#9316: `p https://www.youtube.com/playlist?list=PLiV_2g4PesAU3xr5sdc0IHAS7doe3rR-m
+bawalsikenneth@03:37 PM: cerby_test_bot#2493: 
+bawalsikenneth@03:37 PM: kennethfau#9316: `q
+bawalsikenneth@03:37 PM: cerby_test_bot#2493: 
+cerby college edition 🐾@03:37 PM: kennethfau#9316: hahah may prob5 ata si server
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@03:39 PM: kennethfau#9316: `leave
+bawalsikenneth@03:40 PM: kennethfau#9316: `p bruh
+bawalsikenneth@03:40 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=2ZIpFytCSVc
+bawalsikenneth@03:40 PM: cerby_test_bot#2493: 
+bawalsikenneth@03:40 PM: kennethfau#9316: `p https://www.youtube.com/playlist?list=PLiV_2g4PesAU3xr5sdc0IHAS7doe3rR-m
+bawalsikenneth@03:40 PM: cerby_test_bot#2493: 
+bawalsikenneth@03:40 PM: kennethfau#9316: `q
+bawalsikenneth@03:40 PM: cerby_test_bot#2493: 
+bawalsikenneth@03:40 PM: kennethfau#9316: `p less than zero
+bawalsikenneth@03:40 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=LKsgDcckur0
+bawalsikenneth@03:40 PM: cerby_test_bot#2493: 
+bawalsikenneth@03:40 PM: cerby_test_bot#2493: kbye
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@03:44 PM: kennethfau#9316: `p less than zero
+bawalsikenneth@03:44 PM: cerby_test_bot#2493: bruh join ka muna voice channel lol
+bawalsikenneth@03:44 PM: kennethfau#9316: `p less than zero
+bawalsikenneth@03:44 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=LKsgDcckur0
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@03:51 PM: kennethfau#9316: `p less than zero
+bawalsikenneth@03:51 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=LKsgDcckur0
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@03:53 PM: kennethfau#9316: `p less than zero
+bawalsikenneth@03:53 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=LKsgDcckur0
+
+cerby_test_bot#2493 Live
+
+bawalsikenneth@03:54 PM: kennethfau#9316: `p less than zero
+bawalsikenneth@03:54 PM: cerby_test_bot#2493: https://www.youtube.com/watch?v=LKsgDcckur0
