@@ -1,62 +1,38 @@
-import os
-import re
 import aiohttp
-import googleapiclient.discovery
+import asyncio
+import re
+import os
+from googleapiclient.discovery import build
+from azlyrics.azlyrics import lyrics as get_lyrics
+my_api_key = os.getenv("GOOGLE_API_KEY")
+my_cse_id = os.getenv("CSE_ID")
 
+def google_search(search_term, api_key, cse_id, **kwargs):
+    service = build("customsearch", "v1", developerKey=api_key)
+    res = service.cse().siterestrict().list(q=search_term, cx=cse_id, **kwargs).execute()
+    return res['items'][0]['link']
 
-async def lyrics_search(**kwargs):
-    keyword = kwargs.get('keyword')
+async def lyrics_search(keyword):
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5)\
+        AppleWebKit/537.36 (KHTML, like Gecko) Cafari/537.36'}
     if keyword:
-        keyword = '+'.join(keyword.split())
-        async with aiohttp.ClientSession() as session:
-            async with session.get("https://www.google.com/search?q=" + keyword) as resp:
-                html = await resp.text()
-        # video_id = re.search(r"watch\?v=(\S{11})", html)
-        azlyrics_url = re.search(r"(https.*html)", html)
-        async with aiohttp.ClientSession() as session:
+        azlyrics_url = google_search(keyword, my_api_key, my_cse_id)
+        print(azlyrics_url)
+        async with aiohttp.ClientSession(headers=headers) as session:
             async with session.get(azlyrics_url) as resp:
-                html = await resp.text()
-        lyrics = re.search(r"\. -->\n\s*([\w\W]+?(?=\<\/))", html)
-        if not video_id:
-            return None, None
-        video_id = video_id.group()[-11:]
-        song_title = youtube.videos().list(
-            part="snippet",
-            id=video_id
-        ).execute()['items'][0]['snippet']['title']
-        return {'titles': [song_title], 'watch_urls': ["https://www.youtube.com/watch?v="+video_id]}, None
+                html = await resp.text(encoding='utf-8')
+        regex = re.match(r"https://www.azlyrics.com/lyrics\/(.*)\/(.*)\.ht", azlyrics_url).groups()
+        artist = regex[0]
+        song = regex[1]
+        lyrics = get_lyrics(artist, song)[0]
+        print(song + " by " + artist)
+        if "Error" in lyrics:
+            print("No lyrics found!")
+            return None
+        print(lyrics)
+        lyrics = lyrics.replace('<br>','')
+        return lyrics
 
-    pl_id = kwargs.get('pl_id')
-    pl_name = youtube.playlists().list(
-        part="snippet",
-        id=pl_id
-        ).execute()['items'][0]['snippet']['title']
-
-    response = youtube.playlistItems().list(
-        part="snippet",
-        maxResults="50",
-        playlistId=pl_id
-    ).execute()
-
-    items = response['items']
-    next_page_token = response.get('nextPageToken')
-
-    while next_page_token:
-        response = youtube.playlistItems().list(
-            part="snippet",
-            maxResults="50",
-            playlistId=pl_id,
-            pageToken=next_page_token
-        ).execute()
-        items.extend(response['items'])
-        next_page_token = response.get('nextPageToken')
-
-    song_titles = []
-    watch_urls = []
-    for song in items:
-        song_titles.append(song['snippet']['title'])
-        watch_urls.append('https://youtube.com/watch?v='+song['snippet']['resourceId']['videoId'])
-
-    return {'titles': song_titles, 'watch_urls': watch_urls}, pl_name
-
-#https://www.google.com/search?q=
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(lyrics_search(keyword="less than zero weeknd"))

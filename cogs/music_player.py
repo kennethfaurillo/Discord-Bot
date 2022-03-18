@@ -4,6 +4,7 @@ import random
 from discord.ext import commands
 from youtube_dl import YoutubeDL
 from cogs.ytsearch import yt_search
+from cogs.lyrics_search import lyrics_search
 
 
 class MusicPlayer(commands.Cog):
@@ -18,6 +19,7 @@ class MusicPlayer(commands.Cog):
         coro = self.song_done(ctx)
         fut = asyncio.run_coroutine_threadsafe(coro, self.client.loop)
         if not self.guild_tracker[ctx.guild.id]['pl']:
+          print("empty")
           return
         try:
             fut.result()
@@ -330,6 +332,16 @@ class MusicPlayer(commands.Cog):
     async def _commands(self, ctx):
         await ctx.send_help()
 
+    @commands.command(name="Lyrics",aliases=['lyrics'])
+    async def _lyrics(self, ctx):
+        title = f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np']}"
+        lyrics = await lyrics_search(self.guild_tracker[ctx.guild.id]['np'])
+        if not lyrics:
+            await ctx.send("uda mahanap lyrics")
+            return
+        embed = discord.Embed(title=title, description=lyrics)
+        await ctx.send(embed=embed, delete_after=300)
+      
     @commands.command(name="Servers", brief="    -    Shows the servers the bot is currently playing for", aliases=['servers'])
     async def _servers(self, ctx):
         if not len(self.guild_tracker):

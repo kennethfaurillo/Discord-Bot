@@ -36,7 +36,7 @@ async def on_ready():
     for guild in client.guilds:
         guild_tracker[guild.id] = {'to_reply': False}
     print(str(client.user) + " Live")
-    log("\n" + str(client.user) + " Live\n")
+    #log("\n" + str(client.user) + " Live\n")
 
 @client.event
 async def on_message(message):

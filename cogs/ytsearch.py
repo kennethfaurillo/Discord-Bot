@@ -8,14 +8,15 @@ async def yt_search(**kwargs):
     api_service_name = "youtube"
     api_version = "v3"
     developer_key = os.environ['YOUTUBE']
-
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5)\
+        AppleWebKit/537.36 (KHTML, like Gecko) Cafari/537.36'}
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, developerKey=developer_key)
 
     keyword = kwargs.get('keyword')
     if keyword:
         keyword = '+'.join(keyword.split())
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(headers=headers) as session:
             async with session.get("https://www.youtube.com/results?search_query="+keyword) as resp:
                 html = await resp.text()
         video_id = re.search(r"watch\?v=(\S{11})", html)
