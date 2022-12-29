@@ -59,4 +59,4 @@ async def on_message(message):
 
 client.load_extension(f"cogs.{'music_player'}")
 keep_alive()
-client.run(os.environ("TOKEN"))
+client.run(os.getenv("TOKEN"))
