@@ -1,12 +1,17 @@
 import os
-import discord
 import re
 import random
+import asyncio
+import discord
+from dotenv import load_dotenv
 from discord.ext import commands
 from datetime import datetime
-from keep_alive import keep_alive
+import music_player
 
-client = commands.Bot(command_prefix="`", activity=discord.Game(name="dead"))
+load_dotenv()
+
+intents = discord.Intents.all()
+client = commands.Bot(command_prefix="`", activity=discord.Game(name="dead"), intents=intents)
 guild_tracker = {'id': {}}
 
 
@@ -57,6 +62,11 @@ async def on_message(message):
     await auto_reply(await client.get_context(message), msg)
     await client.process_commands(message)
 
-client.load_extension(f"cogs.{'music_player'}")
-keep_alive()
-client.run(os.environ("TOKEN"))
+
+async def start_bot():
+    async with client:
+        await client.add_cog(music_player.MusicPlayer(client))
+        await client.start(os.getenv("TOKEN"))
+
+if __name__ == '__main__':
+    asyncio.get_event_loop().run_until_complete(start_bot())

@@ -1,4 +1,0 @@
-run="""
-export PATH="$PWD/node_modules/ffmpeg-static:$PATH"
-python main.py
-"""
