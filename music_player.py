@@ -3,7 +3,7 @@ import discord
 import random
 from discord.ext import commands
 from youtube_dl import YoutubeDL
-from cogs.ytsearch import yt_search
+from ytsearch import yt_search
 
 
 class MusicPlayer(commands.Cog):
@@ -12,7 +12,7 @@ class MusicPlayer(commands.Cog):
     queue_chunk_size = 20
 
     def __init__(self, client):
-        self.client = client
+        self.client : discord.Client = client
 
     def song_done_check(self, ctx):
         coro = self.song_done(ctx)
@@ -33,10 +33,10 @@ class MusicPlayer(commands.Cog):
         if ctx.author.voice is None and not autoplay:
             await ctx.send('bruh join ka muna voice channel lol')
             return None
-
         voice_channel = ctx.author.voice.channel
         if ctx.voice_client is None:
             await voice_channel.connect()
+
         else:
             await ctx.voice_client.move_to(voice_channel)
         return ctx.voice_client
@@ -53,7 +53,7 @@ class MusicPlayer(commands.Cog):
         voice = ctx.voice_client
         try:
             song_url = YoutubeDL().extract_info(watch_url, download=False)['formats'][0]['url']
-            voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **self.ffmpeg_opts),
+            voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **MusicPlayer.ffmpeg_opts),
                        after=lambda _: self.song_done_check(ctx))
             embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"]}')
             await ctx.send(embed=embed, delete_after=15)
@@ -94,7 +94,7 @@ class MusicPlayer(commands.Cog):
         except IndexError:
             self.guild_tracker[ctx.guild.id]['np'] = ''
             print('ubos na playlist')
-            return await self.timeout(ctx, 30)
+            return await self.timeout(voice, 30)
         await self.play_helper(ctx, song_url)
 
     async def queue_helper(self, ctx, to_queue, no_message, pl_name=None, from_play=False):
@@ -123,7 +123,7 @@ class MusicPlayer(commands.Cog):
         voice = ctx.voice_client
         if not keywords.strip():  # Show the queue
             pl_size = len(self.guild_tracker[ctx.guild.id]['pl'])
-            queue_chunks_temp = divmod(pl_size, self.queue_chunk_size)
+            queue_chunks_temp = divmod(pl_size, MusicPlayer.queue_chunk_size)
             queue_chunks_count = queue_chunks_temp[0] + bool(queue_chunks_temp[1])*1
             embeds = []
             for queue_chunk in range(queue_chunks_count):
@@ -165,19 +165,18 @@ class MusicPlayer(commands.Cog):
         for idx, lower_case_title in enumerate(lower_case_titles):
             if keyword in lower_case_title:
                 return idx + 1
-        else:
-            return keyword
+        return keyword
 
     @commands.command(name='Move', brief="    -    `mv | `move", aliases=['move', 'mv'])
     async def move(self, ctx, source_index, dest_index):
-        if not source_index.isdigit():  # keyword is given
+        if not source_index.lstrip('-').isdigit():  # keyword is given
             source_index = self.keyword_to_index(source_index, ctx)
-            if not type(source_index) == int:
+            if not isinstance(source_index, int):
                 await ctx.send(f"uda man {source_index}")
                 return
-        if not dest_index.isdigit():  # keyword is given
+        if not dest_index.lstrip('-').isdigit():  # keyword is given
             dest_index = self.keyword_to_index(dest_index, ctx)
-            if not type(dest_index) == int:
+            if not isinstance(dest_index, int):
                 await ctx.send(f"uda man {dest_index}")
                 return
         source_index, dest_index = int(source_index), int(dest_index)
@@ -186,34 +185,40 @@ class MusicPlayer(commands.Cog):
             return
         try:
             song_to_move = self.guild_tracker[ctx.guild.id]['pl'].pop(int(source_index)-1)
-            self.guild_tracker[ctx.guild.id]['pl'].insert(int(dest_index)-1, song_to_move)
-            embed = discord.Embed(title=f"Moved {song_to_move[0]} to {dest_index}", delete_after=7.5)
-            await ctx.send(embed=embed)
+            if(dest_index < 0):
+                self.guild_tracker[ctx.guild.id]['pl'].insert(len(self.guild_tracker[ctx.guild.id]['pl'])+int(dest_index)+1, song_to_move)
+            else:
+                self.guild_tracker[ctx.guild.id]['pl'].insert(int(dest_index)-1, song_to_move)
+            embed = discord.Embed(title=f"Moved {song_to_move[0]} to {dest_index}")
+            await ctx.send(embed=embed, delete_after=7.5)
         except IndexError:
             await ctx.send("bug")
 
-    async def timeout(self, ctx, secs=30):
-        await asyncio.sleep(secs)
-        voice = ctx.voice_client
-        if voice and len(ctx.channel.members) < 2:
-            await self.leave(ctx)
-        # if not voice.is_paused() and not voice.is_playing():
-        #     try:
-        #         self.guild_tracker.pop(ctx.guild.id)
-        #     except KeyError:
-        #         raise
-        #     await self.leave(ctx)
+    async def timeout(self, voice_client, secs_to_wait=3, secs_countdown=5):
+        await asyncio.sleep(secs_to_wait)
+        print("going to sleep")
+        for i in range(secs_countdown,0,-1):
+            print(i,end=' ',flush=True)
+            await asyncio.sleep(1)
+        print("sleeping")
+        await self.leave_helper(voice_client)
+
 
     @commands.command(name='Stop', brief="    -    `stop | `leave | `disconnect", aliases=['leave', 'disconnect', 'stop'])
     async def leave(self, ctx):
         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
         if voice:
-            self.guild_tracker[ctx.guild.id]['np'] = ''
-            await self.clear(ctx, message=False)
-            await self.skip(ctx, message=False)
-            await asyncio.sleep(1)
-            await voice.disconnect()
+            await self.leave_helper(voice)
             await ctx.send("kbye")
+    
+    async def leave_helper(self, voice_client: discord.VoiceClient):
+        guild_id = voice_client.guild.id
+        self.clear_helper(guild_id)
+        self.skip_helper(voice_client)
+        await asyncio.sleep(1)
+        await voice_client.disconnect()
+
+
 
     @commands.command(name='Pause', brief="    -    `pause ", aliases=['pause'])
     async def pause(self, ctx):
@@ -242,17 +247,23 @@ class MusicPlayer(commands.Cog):
             print('bug')
 
     @commands.command(name='Skip', brief="    -    `skip | `next | `s", aliases=['skip', 's', 'next'])
-    async def skip(self, ctx, *args, message=True):
+    async def skip(self, ctx, index=None, message=True):
+        if(index):
+            await self.jump(ctx, index)
+            return
         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
         if voice and (voice.is_playing() or voice.is_paused()):
             if message:
                 embed = discord.Embed(title=f"Skipping {self.guild_tracker[ctx.guild.id]['np']}")
                 await ctx.send(embed=embed, delete_after=7.5)
-            voice.stop()
-            self.guild_tracker[ctx.guild.id]['np'] = ''
+            self.skip_helper(voice)
         else:
             if message:
                 await ctx.send("ano isskip ko")
+    
+    def skip_helper(self, voice_client):
+        voice_client.stop()
+        self.guild_tracker[voice_client.guild.id]['np'] = ''
 
     @commands.command(name='Jump', brief="    -    `j | `jump | `goto", aliases=['jump', 'goto', 'j'])
     async def jump(self, ctx, song_index=''):
@@ -303,17 +314,22 @@ class MusicPlayer(commands.Cog):
                     return
                 song_index = self.keyword_to_index(song_index, ctx)
             song_removed = self.guild_tracker[ctx.guild.id]['pl'].pop(int(song_index) - 1)[0]
-            embed = discord.Embed(title="Removed " + song_removed, delete_after=7.5)
-            await ctx.send(embed=embed)
+            print(song_removed)
+            embed = discord.Embed(title="Removed " + song_removed)
+            await ctx.send(embed=embed, delete_after=7.5)
         except (ValueError, IndexError):
             await ctx.send("uda man " + song_index)
 
     @commands.command(name="Clear", brief="    -    `clear", aliases=['clear'], message=True)
     async def clear(self, ctx, message=True):
-        self.guild_tracker[ctx.guild.id]['pl'].clear()
+        self.clear_helper(ctx.guild.id)
         if message:
-            embed = discord.Embed(title="Cleared queue", delete_after=7.5)
-            await ctx.send(embed=embed)
+            embed = discord.Embed(title="Cleared queue")
+            await ctx.send(embed=embed, delete_after=7.5)
+
+    def clear_helper(self, guild_id):
+        self.guild_tracker[guild_id]['pl'].clear()
+
 
     @commands.command(name="Shuffle", brief="    -    `shuffle", aliases=['shuffle'])
     async def shuffle(self, ctx):
@@ -337,10 +353,13 @@ class MusicPlayer(commands.Cog):
                 servers += server['name'] + '\n'
             await ctx.send(embed=discord.Embed(description=servers))
 
-    @commands.Cog
-    async def on_ready(self):
-        print(str(self.client.user) + " Live")
-
-
-def setup(client):
-    client.add_cog(MusicPlayer(client))
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        voice_client : discord.VoiceClient = discord.utils.get(self.client.voice_clients, guild=member.guild)
+        if(voice_client.channel in [before.channel, after.channel]):
+            if(after.channel == None):
+                print(member.name,"left the voice channel",voice_client.channel)
+            elif(before.channel != after.channel):
+                print(member.name,"joined the voice channel",voice_client.channel)
+        if(len(voice_client.channel.members) < 2):
+            await self.timeout(voice_client)
