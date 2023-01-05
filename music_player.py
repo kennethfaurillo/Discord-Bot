@@ -17,102 +17,7 @@ class MusicPlayer(commands.Cog):
     def __init__(self, client):
         self.client : discord.Client = client
 
-    def song_done_check(self, ctx):
-        coro = self.song_done(ctx)
-        fut = asyncio.run_coroutine_threadsafe(coro, self.client.loop)
-        if not self.guild_tracker[ctx.guild.id]['pl']:
-          return
-        try:
-            fut.result()
-        except Exception as e:
-            print(e)
-
-    async def song_done(self, ctx):
-        print('tapos na po')
-        self.update_chart(ctx.guild.id)
-        await self.play(ctx, autoplay=True)
-
-    def update_chart(self, guild_id):
-        song = self.guild_tracker[guild_id]['np']
-        guild_id = str(guild_id)
-        chart_dict = {}
-        # open chart file, create if doesnt exist
-        with open("charts.json", "a+") as f:
-            f.seek(0)
-            if os.path.getsize("charts.json"):
-                chart_dict = json.loads(f.read())
-        # create dict/chart for guild
-        if not chart_dict.get(guild_id):
-            chart_dict[guild_id] = {}
-        chart_dict_guild = dict(chart_dict[guild_id])
-        chart_dict_guild.update({song:chart_dict_guild[song]+1 if chart_dict_guild.get(song) else 1})
-        chart_dict[guild_id] = chart_dict_guild
-        if song == "":
-            return
-        with open("charts.json", "w+") as f:
-            try:
-                f.write(json.dumps(chart_dict))
-            except Exception as e:
-                print(e)
-
-    @commands.command(name="Join", brief="    -    `join", aliases=['join'])
-    async def join(self, ctx, autoplay=False):
-        if ctx.author.voice is None and not autoplay:
-            await ctx.send('bruh join ka muna voice channel lol')
-            return None
-        voice_channel = ctx.author.voice.channel
-        if ctx.voice_client is None:
-            await voice_channel.connect()
-
-        else:
-            await ctx.voice_client.move_to(voice_channel)
-        return ctx.voice_client
-
-    def add_to_tracker(self, ctx):
-        if ctx.guild.id not in self.guild_tracker:
-            print("adding", str(ctx.guild), 'to tracker')
-            self.guild_tracker[ctx.guild.id] = {'name': str(ctx.guild), 'pl': [], 'np': ''}
-        else:
-            # print(self.guild_tracker[ctx.guild.id]['name'], 'already in tracker')
-            pass
-    
-    @commands.command(name="Chart", brief="    -    `chart | `top", aliases=['chart','top'])
-    async def chart(self, ctx):
-        chart_dict = {}
-        guild_id = str(ctx.guild.id)
-        # file doesnt exist or is empty
-        if not (os.path.isfile("charts.json") and os.path.getsize("charts.json")):
-            embed = discord.Embed(title="Song Chart Empty!")
-            await ctx.send(embed=embed)
-            return
-        with open('charts.json', 'r') as f:
-            chart_dict = json.loads(f.read())
-            # guild chart empty/notfound
-            if not chart_dict.get((guild_id)):
-                embed = discord.Embed(title="Song Chart Empty!")
-                await ctx.send(embed=embed)
-                return
-        header = ['Song Title', '# of Plays']
-        songs = [[song, count] for song, count in chart_dict[guild_id].items()]
-        try:
-            chart = t2a(header, songs, )
-        except Exception as e:
-            print(e)
-        embed = discord.Embed(title="__**Top 10 Most Played Songs**__",description=f"```\n{chart}\n```")
-        await ctx.send(embed=embed)
-
-    async def play_helper(self, ctx, watch_url):
-        voice = ctx.voice_client
-        try:
-            song_url = YoutubeDL().extract_info(watch_url, download=False)['formats'][0]['url']
-            voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **MusicPlayer.ffmpeg_opts),
-                       after=lambda _: self.song_done_check(ctx))
-            embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"]}')
-            await ctx.send(embed=embed, delete_after=15)
-        except discord.errors.ClientException as e:
-            print(e)
-            await ctx.send('wait lang', delete_after=10)
-            pass
+    # Bot Commands
 
     @commands.command(name="Play", brief="    -    `p | `play", aliases=["play", 'p', 'P'])
     async def play(self, ctx, *args, autoplay=False):
@@ -140,7 +45,6 @@ class MusicPlayer(commands.Cog):
                     elif voice.is_playing():
                         await ctx.send("nagpplay na baga")
                         return
-
         # Allow ffmpeg to reconnect
         try:
             self.guild_tracker[ctx.guild.id]['np'], song_url = self.guild_tracker[ctx.guild.id]['pl'].pop(0)
@@ -149,26 +53,7 @@ class MusicPlayer(commands.Cog):
             print('ubos na playlist')
             # return await self.timeout(voice)
         await self.play_helper(ctx, song_url)
-
-    async def queue_helper(self, ctx, to_queue, no_message, pl_name=None, from_play=False):
-        is_playlist = bool(pl_name)
-        if is_playlist:
-            embed = discord.Embed(title=f"Added {len(to_queue['titles'])} songs to queue from {pl_name} playlist")
-            print(f"Added {len(to_queue['titles'])} songs to queue from {pl_name} playlist")
-            await ctx.send(embed=embed, delete_after=10)
-        for idx, (song_title, watch_url) in enumerate(zip(to_queue['titles'], to_queue['watch_urls'])):
-            if pl_name and not idx:
-                if ctx.voice_client and from_play:
-                    self.guild_tracker[ctx.guild.id]['np'] = song_title
-                    await self.play_helper(ctx, watch_url)
-                    continue
-            self.guild_tracker[ctx.guild.id]['pl'].append([song_title, watch_url])
-            if not is_playlist:
-                await ctx.send(watch_url, delete_after=7.5)
-            if not is_playlist and not no_message:
-                embed = discord.Embed(title=f"Added:    {song_title} to queue")
-                await ctx.send(embed=embed, delete_after=10)
-
+    
     @commands.command(name='Queue', brief="    -    `q | `queue ", aliases=['queue', 'q'])
     async def queue(self, ctx, *args, no_message=False, from_play=False):
         self.add_to_tracker(ctx)
@@ -212,69 +97,26 @@ class MusicPlayer(commands.Cog):
             await self.queue_helper(ctx, to_queue, no_message, pl_name, from_play)
             return True
 
-    def keyword_to_index(self, keyword, ctx):
-        lower_case_titles = [x[0].lower() for x in self.guild_tracker[ctx.guild.id]['pl']]
-        keyword = keyword.lower()
-        for idx, lower_case_title in enumerate(lower_case_titles):
-            if keyword in lower_case_title:
-                return idx + 1
-        return keyword
+    @commands.command(name="Join", brief="    -    `join", aliases=['join'])
+    async def join(self, ctx, autoplay=False):
+        if ctx.author.voice is None and not autoplay:
+            await ctx.send('bruh join ka muna voice channel lol')
+            return None
+        voice_channel = ctx.author.voice.channel
+        if ctx.voice_client is None:
+            await voice_channel.connect()
 
-    @commands.command(name='Move', brief="    -    `mv | `move", aliases=['move', 'mv'])
-    async def move(self, ctx, source_index, dest_index):
-        if not source_index.lstrip('-').isdigit():  # keyword is given
-            source_index = self.keyword_to_index(source_index, ctx)
-            if not isinstance(source_index, int):
-                await ctx.send(f"uda man {source_index}")
-                return
-        if not dest_index.lstrip('-').isdigit():  # keyword is given
-            dest_index = self.keyword_to_index(dest_index, ctx)
-            if not isinstance(dest_index, int):
-                await ctx.send(f"uda man {dest_index}")
-                return
-        source_index, dest_index = int(source_index), int(dest_index)
-        if source_index == dest_index or (max(int(source_index), int(dest_index)) > len(self.guild_tracker[ctx.guild.id]['pl'])):
-            await ctx.send("???")
-            return
-        try:
-            song_to_move = self.guild_tracker[ctx.guild.id]['pl'].pop(int(source_index)-1)
-            if(dest_index < 0):
-                self.guild_tracker[ctx.guild.id]['pl'].insert(len(self.guild_tracker[ctx.guild.id]['pl'])+int(dest_index)+1, song_to_move)
-            else:
-                self.guild_tracker[ctx.guild.id]['pl'].insert(int(dest_index)-1, song_to_move)
-            embed = discord.Embed(title=f"Moved {song_to_move[0]} to {dest_index}")
-            await ctx.send(embed=embed, delete_after=7.5)
-        except IndexError:
-            await ctx.send("bug")
+        else:
+            await ctx.voice_client.move_to(voice_channel)
+        return ctx.voice_client
 
-    async def timeout(self, voice_client, secs_to_wait=10, secs_countdown=10):
-        await asyncio.sleep(secs_to_wait)
-        print(voice_client.guild.name,"bot going to sleep")
-        for i in range(secs_countdown,0,-1):
-            print(i,end=' ',flush=True)
-            try:
-                self.guild_tracker[voice_client.guild.id]['pl'][0]
-                return
-            except IndexError:
-                pass
-            await asyncio.sleep(1)
-        print(voice_client.guild.name,"bot sleeping")
-        await self.leave_helper(voice_client)
-
-
-    @commands.command(name='Stop', brief="    -    `stop | `leave | `disconnect", aliases=['leave', 'disconnect', 'stop'])
-    async def leave(self, ctx):
-        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-        if voice:
-            await self.leave_helper(voice)
-            await ctx.send("kbye")
-    
-    async def leave_helper(self, voice_client: discord.VoiceClient):
-        guild_id = voice_client.guild.id
-        self.clear_helper(guild_id)
-        self.skip_helper(voice_client)
-        await asyncio.sleep(1)
-        await voice_client.disconnect()
+    def add_to_tracker(self, ctx):
+        if ctx.guild.id not in self.guild_tracker:
+            print("adding", str(ctx.guild), 'to tracker')
+            self.guild_tracker[ctx.guild.id] = {'name': str(ctx.guild), 'pl': [], 'np': ''}
+        else:
+            # print(self.guild_tracker[ctx.guild.id]['name'], 'already in tracker')
+            pass
 
     @commands.command(name='Pause', brief="    -    `pause ", aliases=['pause'])
     async def pause(self, ctx):
@@ -316,10 +158,6 @@ class MusicPlayer(commands.Cog):
         else:
             if message:
                 await ctx.send("ano isskip ko")
-    
-    def skip_helper(self, voice_client):
-        voice_client.stop()
-        self.guild_tracker[voice_client.guild.id]['np'] = ''
 
     @commands.command(name='Jump', brief="    -    `j | `jump | `goto", aliases=['jump', 'goto', 'j'])
     async def jump(self, ctx, song_index=''):
@@ -383,9 +221,32 @@ class MusicPlayer(commands.Cog):
             embed = discord.Embed(title="Cleared queue")
             await ctx.send(embed=embed, delete_after=7.5)
 
-    def clear_helper(self, guild_id):
-        self.guild_tracker[guild_id]['pl'].clear()
-
+    @commands.command(name='Move', brief="    -    `mv | `move", aliases=['move', 'mv'])
+    async def move(self, ctx, source_index, dest_index):
+        if not source_index.lstrip('-').isdigit():  # keyword is given
+            source_index = self.keyword_to_index(source_index, ctx)
+            if not isinstance(source_index, int):
+                await ctx.send(f"uda man {source_index}")
+                return
+        if not dest_index.lstrip('-').isdigit():  # keyword is given
+            dest_index = self.keyword_to_index(dest_index, ctx)
+            if not isinstance(dest_index, int):
+                await ctx.send(f"uda man {dest_index}")
+                return
+        source_index, dest_index = int(source_index), int(dest_index)
+        if source_index == dest_index or (max(int(source_index), int(dest_index)) > len(self.guild_tracker[ctx.guild.id]['pl'])):
+            await ctx.send("???")
+            return
+        try:
+            song_to_move = self.guild_tracker[ctx.guild.id]['pl'].pop(int(source_index)-1)
+            if(dest_index < 0):
+                self.guild_tracker[ctx.guild.id]['pl'].insert(len(self.guild_tracker[ctx.guild.id]['pl'])+int(dest_index)+1, song_to_move)
+            else:
+                self.guild_tracker[ctx.guild.id]['pl'].insert(int(dest_index)-1, song_to_move)
+            embed = discord.Embed(title=f"Moved {song_to_move[0]} to {dest_index}")
+            await ctx.send(embed=embed, delete_after=7.5)
+        except IndexError:
+            await ctx.send("bug")
 
     @commands.command(name="Shuffle", brief="    -    `shuffle", aliases=['shuffle'])
     async def shuffle(self, ctx):
@@ -395,13 +256,9 @@ class MusicPlayer(commands.Cog):
         embed = discord.Embed(title="Queue shuffled")
         await ctx.send(embed=embed, delete_after=7.5)
 
-    @commands.command(name="Commands", brief="    -    Shows this message", aliases=['commands'])
-    async def _commands(self, ctx):
-        await ctx.send_help()
-
     @commands.command(name="Lyrics", brief="    -    `lyrics`", aliases=['lyrics'])
     async def Lyrics(self, ctx, keyword=''):
-        # Cache dis
+        # Cache this?
         song_title, song_artist = '',''
         song_lyrics = []
         if keyword == '':
@@ -420,7 +277,152 @@ class MusicPlayer(commands.Cog):
             await ctx.send(embed=embed)
         except Exception as e:
             print(e)
+            
+    @commands.command(name='Stop', brief="    -    `stop | `leave | `disconnect", aliases=['leave', 'disconnect', 'stop'])
+    async def leave(self, ctx):
+        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+        if voice:
+            await self.leave_helper(voice)
+            await ctx.send("kbye")
 
+    @commands.command(name="Chart", brief="    -    `chart | `top", aliases=['chart','top'])
+    async def chart(self, ctx):
+        chart_dict = {}
+        guild_id = str(ctx.guild.id)
+        # file doesnt exist or is empty
+        if not (os.path.isfile("charts.json") and os.path.getsize("charts.json")):
+            embed = discord.Embed(title="Song Chart Empty!")
+            await ctx.send(embed=embed)
+            return
+        with open('charts.json', 'r') as f:
+            chart_dict = json.loads(f.read())
+            # guild chart empty/notfound
+            if not chart_dict.get((guild_id)):
+                embed = discord.Embed(title="Song Chart Empty!")
+                await ctx.send(embed=embed)
+                return
+        header = ['Song Title', '# of Plays']
+        songs = [[song, count] for song, count in chart_dict[guild_id].items()]
+        try:
+            chart = t2a(header, songs, )
+        except Exception as e:
+            print(e)
+        embed = discord.Embed(title="__**Top 10 Most Played Songs**__",description=f"```\n{chart}\n```")
+        await ctx.send(embed=embed)
+
+    @commands.command(name="Commands", brief="    -    Shows this message", aliases=['commands'])
+    async def _commands(self, ctx):
+        await ctx.send_help()
+
+    # Helper Methods
+
+    def song_done_check(self, ctx):
+        coro = self.song_done(ctx)
+        fut = asyncio.run_coroutine_threadsafe(coro, self.client.loop)
+        if not self.guild_tracker[ctx.guild.id]['pl']:
+          return
+        try:
+            fut.result()
+        except Exception as e:
+            print(e)
+
+    async def song_done(self, ctx):
+        print('tapos na po')
+        self.update_chart(ctx.guild.id)
+        await self.play(ctx, autoplay=True)
+
+    async def play_helper(self, ctx, watch_url):
+        voice = ctx.voice_client
+        try:
+            song_url = YoutubeDL().extract_info(watch_url, download=False)['formats'][0]['url']
+            voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **MusicPlayer.ffmpeg_opts),
+                       after=lambda _: self.song_done_check(ctx))
+            embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"]}')
+            await ctx.send(embed=embed, delete_after=15)
+        except discord.errors.ClientException as e:
+            print(e)
+            await ctx.send('wait lang', delete_after=10)
+            pass
+
+    async def queue_helper(self, ctx, to_queue, no_message, pl_name=None, from_play=False):
+        is_playlist = bool(pl_name)
+        if is_playlist:
+            embed = discord.Embed(title=f"Added {len(to_queue['titles'])} songs to queue from {pl_name} playlist")
+            print(f"Added {len(to_queue['titles'])} songs to queue from {pl_name} playlist")
+            await ctx.send(embed=embed, delete_after=10)
+        for idx, (song_title, watch_url) in enumerate(zip(to_queue['titles'], to_queue['watch_urls'])):
+            if pl_name and not idx:
+                if ctx.voice_client and from_play:
+                    self.guild_tracker[ctx.guild.id]['np'] = song_title
+                    await self.play_helper(ctx, watch_url)
+                    continue
+            self.guild_tracker[ctx.guild.id]['pl'].append([song_title, watch_url])
+            if not is_playlist:
+                await ctx.send(watch_url, delete_after=7.5)
+            if not is_playlist and not no_message:
+                embed = discord.Embed(title=f"Added:    {song_title} to queue")
+                await ctx.send(embed=embed, delete_after=10)
+
+    def update_chart(self, guild_id):
+        song = self.guild_tracker[guild_id]['np']
+        guild_id = str(guild_id)
+        chart_dict = {}
+        # open chart file, create if doesnt exist
+        with open("charts.json", "a+") as f:
+            f.seek(0)
+            if os.path.getsize("charts.json"):
+                chart_dict = json.loads(f.read())
+        # create dict/chart for guild
+        if not chart_dict.get(guild_id):
+            chart_dict[guild_id] = {}
+        chart_dict_guild = dict(chart_dict[guild_id])
+        chart_dict_guild.update({song:chart_dict_guild[song]+1 if chart_dict_guild.get(song) else 1})
+        chart_dict[guild_id] = chart_dict_guild
+        if song == "":
+            return
+        with open("charts.json", "w+") as f:
+            try:
+                f.write(json.dumps(chart_dict))
+            except Exception as e:
+                print(e)
+
+    async def timeout(self, voice_client, secs_to_wait=10, secs_countdown=10):
+        await asyncio.sleep(secs_to_wait)
+        print(voice_client.guild.name,"bot going to sleep")
+        for i in range(secs_countdown,0,-1):
+            print(i,end=' ',flush=True)
+            try:
+                self.guild_tracker[voice_client.guild.id]['pl'][0]
+                return
+            except IndexError:
+                pass
+            await asyncio.sleep(1)
+        print(voice_client.guild.name,"bot sleeping")
+        await self.leave_helper(voice_client)
+
+    async def leave_helper(self, voice_client: discord.VoiceClient):
+        guild_id = voice_client.guild.id
+        self.clear_helper(guild_id)
+        self.skip_helper(voice_client)
+        await asyncio.sleep(1)
+        await voice_client.disconnect()
+    
+    def skip_helper(self, voice_client):
+        voice_client.stop()
+        self.guild_tracker[voice_client.guild.id]['np'] = ''
+
+    def clear_helper(self, guild_id):
+        self.guild_tracker[guild_id]['pl'].clear()
+
+    def keyword_to_index(self, keyword, ctx):
+        lower_case_titles = [x[0].lower() for x in self.guild_tracker[ctx.guild.id]['pl']]
+        keyword = keyword.lower()
+        for idx, lower_case_title in enumerate(lower_case_titles):
+            if keyword in lower_case_title:
+                return idx + 1
+        return keyword
+
+    # Listeners
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):

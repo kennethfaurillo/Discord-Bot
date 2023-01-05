@@ -116,4 +116,6 @@ dmypy.json
 
 # songs
 *.mp3
+
+# json
 *.json
