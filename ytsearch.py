@@ -82,4 +82,4 @@ def lyrics_search(keyword):
             print("Lyrics not found!")
             return None, None, None
             
-        return song_title, song_artist, song_lyrics
+        return song_title, song_artist, song_lyrics[0].strip()

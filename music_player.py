@@ -259,8 +259,7 @@ class MusicPlayer(commands.Cog):
     @commands.command(name="Lyrics", brief="    -    `lyrics`", aliases=['lyrics'])
     async def Lyrics(self, ctx, keyword=''):
         # Cache this?
-        song_title, song_artist = '',''
-        song_lyrics = []
+        song_title, song_artist, song_lyrics = '','',''
         if keyword == '':
             try:
                 song_title, song_artist, song_lyrics = lyrics_search(self.guild_tracker[ctx.guild.id]['np'])
@@ -271,7 +270,7 @@ class MusicPlayer(commands.Cog):
         if not song_lyrics:
             await ctx.send("Mayong lyrics!")
             return
-        embed = discord.Embed(title=song_title+' by '+song_artist, description='\n'.join(song_lyrics))
+        embed = discord.Embed(title=song_title+' by '+song_artist, description=song_lyrics)
         # [embed.add_field(name=x, value='') for x in song_lyrics]
         try:
             await ctx.send(embed=embed)

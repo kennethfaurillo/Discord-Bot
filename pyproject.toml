@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Cerby Bot"
-version = "0.7.1"
+version = "0.7.2"
 description = "Cerby Discord Bot"
 authors = ["kennethfaurillo <kenneth.edison.faurillo@eee.upd.edu.ph>"]
 
