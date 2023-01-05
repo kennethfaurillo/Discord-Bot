@@ -6,7 +6,7 @@ import os
 from table2ascii import table2ascii as t2a
 from discord.ext import commands
 from youtube_dl import YoutubeDL
-from ytsearch import yt_search
+from ytsearch import yt_search, lyrics_search
 
 
 class MusicPlayer(commands.Cog):
@@ -399,15 +399,28 @@ class MusicPlayer(commands.Cog):
     async def _commands(self, ctx):
         await ctx.send_help()
 
-    @commands.command(name="Servers", brief="    -    Shows the servers the bot is currently playing for", aliases=['servers'])
-    async def _servers(self, ctx):
-        if not len(self.guild_tracker):
-            await ctx.send(embed=discord.Embed(title="wala"))
+    @commands.command(name="Lyrics", brief="    -    `lyrics`", aliases=['lyrics'])
+    async def Lyrics(self, ctx, keyword=''):
+        # Cache dis
+        song_title, song_artist = '',''
+        song_lyrics = []
+        if keyword == '':
+            try:
+                song_title, song_artist, song_lyrics = lyrics_search(self.guild_tracker[ctx.guild.id]['np'])
+            except Exception as e:
+                print(e)
         else:
-            servers = ''
-            for server in self.guild_tracker.values():
-                servers += server['name'] + '\n'
-            await ctx.send(embed=discord.Embed(description=servers))
+            song_title, song_artist, song_lyrics = lyrics_search(keyword)
+        if not song_lyrics:
+            await ctx.send("Mayong lyrics!")
+            return
+        embed = discord.Embed(title=song_title+' by '+song_artist, description='\n'.join(song_lyrics))
+        # [embed.add_field(name=x, value='') for x in song_lyrics]
+        try:
+            await ctx.send(embed=embed)
+        except Exception as e:
+            print(e)
+
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):

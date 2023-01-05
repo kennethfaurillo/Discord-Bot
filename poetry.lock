@@ -54,6 +54,33 @@ tests-no-zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "c
 tests_no_zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "cloudpickle", "mypy (>=0.971,<0.990)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "azlyrics"
+version = "1.3.2"
+description = "An API wrapper for azlyrics which allows you to programatically extract data"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+beautifulsoup4 = "*"
+requests = "*"
+
+[[package]]
+name = "beautifulsoup4"
+version = "4.11.1"
+description = "Screen-scraping library"
+category = "main"
+optional = false
+python-versions = ">=3.6.0"
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
+
+[[package]]
 name = "cachetools"
 version = "5.2.0"
 description = "Extensible memoizing collections and decorators"
@@ -345,6 +372,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "soupsieve"
+version = "2.3.2.post1"
+description = "A modern CSS selector implementation for Beautiful Soup."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "table2ascii"
 version = "1.1.0"
 description = "Convert 2D Python lists into Unicode/ASCII tables"
@@ -408,16 +443,40 @@ category = "main"
 optional = false
 python-versions = "*"
 
+[[package]]
+name = "youtube-title-parse"
+version = "1.0.0"
+description = "Parse the title of a YouTube video to try and get artist & song name"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "ytmusicapi"
+version = "0.24.1"
+description = "Unofficial API for YouTube Music"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+requests = ">=2.22"
+
+[package.extras]
+dev = ["pre-commit", "flake8", "yapf", "coverage", "sphinx", "sphinx-rtd-theme"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "b43479f4bdcb1ae90a12cc70f3a38241c37a30847d1e8f809718fc764ba97e87"
+content-hash = "0f57ab4978f5543b1f522d459fe9ba21d2602d670f2241dea3ec01d6d80e2614"
 
 [metadata.files]
 aiohttp = []
 aiosignal = []
 async-timeout = []
 attrs = []
+azlyrics = []
+beautifulsoup4 = []
 cachetools = []
 certifi = []
 cffi = []
@@ -491,6 +550,7 @@ six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
+soupsieve = []
 table2ascii = []
 uritemplate = [
     {file = "uritemplate-4.1.1-py2.py3-none-any.whl", hash = "sha256:830c08b8d99bdd312ea4ead05994a38e8936266f84b9a7878232db50b044e02e"},
@@ -503,3 +563,5 @@ youtube-dl = [
     {file = "youtube_dl-2021.12.17-py2.py3-none-any.whl", hash = "sha256:f1336d5de68647e0364a47b3c0712578e59ec76f02048ff5c50ef1c69d79cd55"},
     {file = "youtube_dl-2021.12.17.tar.gz", hash = "sha256:bc59e86c5d15d887ac590454511f08ce2c47698d5a82c27bfe27b5d814bbaed2"},
 ]
+youtube-title-parse = []
+ytmusicapi = []
