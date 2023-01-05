@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Cerby Bot"
-version = "0.5.0"
+version = "0.6.0"
 description = "Cerby Discord Bot"
 authors = ["kennethfaurillo <kenneth.edison.faurillo@eee.upd.edu.ph>"]
 
@@ -11,6 +11,7 @@ discord = "^2.1.0"
 google-api-python-client = "^2.70.0"
 python-dotenv = "^0.21.0"
 PyNaCl = "^1.5.0"
+table2ascii = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 

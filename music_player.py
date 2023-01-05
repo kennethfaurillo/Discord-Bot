@@ -1,6 +1,9 @@
 import asyncio
 import discord
 import random
+import json
+import os
+from table2ascii import table2ascii as t2a
 from discord.ext import commands
 from youtube_dl import YoutubeDL
 from ytsearch import yt_search
@@ -21,12 +24,36 @@ class MusicPlayer(commands.Cog):
           return
         try:
             fut.result()
-        except:
-            print('nag error')
+        except Exception as e:
+            print(e)
 
     async def song_done(self, ctx):
         print('tapos na po')
+        self.update_chart(ctx.guild.id)
         await self.play(ctx, autoplay=True)
+
+    def update_chart(self, guild_id):
+        song = self.guild_tracker[guild_id]['np']
+        guild_id = str(guild_id)
+        chart_dict = {}
+        # open chart file, create if doesnt exist
+        with open("charts.json", "a+") as f:
+            f.seek(0)
+            if os.path.getsize("charts.json"):
+                chart_dict = json.loads(f.read())
+        # create dict/chart for guild
+        if not chart_dict.get(guild_id):
+            chart_dict[guild_id] = {}
+        chart_dict_guild = dict(chart_dict[guild_id])
+        chart_dict_guild.update({song:chart_dict_guild[song]+1 if chart_dict_guild.get(song) else 1})
+        chart_dict[guild_id] = chart_dict_guild
+        if song == "":
+            return
+        with open("charts.json", "w+") as f:
+            try:
+                f.write(json.dumps(chart_dict))
+            except Exception as e:
+                print(e)
 
     @commands.command(name="Join", brief="    -    `join", aliases=['join'])
     async def join(self, ctx, autoplay=False):
@@ -48,6 +75,31 @@ class MusicPlayer(commands.Cog):
         else:
             # print(self.guild_tracker[ctx.guild.id]['name'], 'already in tracker')
             pass
+    
+    @commands.command(name="Chart", brief="    -    `chart | `top", aliases=['chart','top'])
+    async def chart(self, ctx):
+        chart_dict = {}
+        guild_id = str(ctx.guild.id)
+        # file doesnt exist or is empty
+        if not (os.path.isfile("charts.json") and os.path.getsize("charts.json")):
+            embed = discord.Embed(title="Song Chart Empty!")
+            await ctx.send(embed=embed)
+            return
+        with open('charts.json', 'r') as f:
+            chart_dict = json.loads(f.read())
+            # guild chart empty/notfound
+            if not chart_dict.get((guild_id)):
+                embed = discord.Embed(title="Song Chart Empty!")
+                await ctx.send(embed=embed)
+                return
+        header = ['Song Title', '# of Plays']
+        songs = [[song, count] for song, count in chart_dict[guild_id].items()]
+        try:
+            chart = t2a(header, songs, )
+        except Exception as e:
+            print(e)
+        embed = discord.Embed(title="__**Top 10 Most Played Songs**__",description=f"```\n{chart}\n```")
+        await ctx.send(embed=embed)
 
     async def play_helper(self, ctx, watch_url):
         voice = ctx.voice_client
@@ -57,7 +109,8 @@ class MusicPlayer(commands.Cog):
                        after=lambda _: self.song_done_check(ctx))
             embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"]}')
             await ctx.send(embed=embed, delete_after=15)
-        except discord.errors.ClientException:
+        except discord.errors.ClientException as e:
+            print(e)
             await ctx.send('wait lang', delete_after=10)
             pass
 
@@ -94,7 +147,7 @@ class MusicPlayer(commands.Cog):
         except IndexError:
             self.guild_tracker[ctx.guild.id]['np'] = ''
             print('ubos na playlist')
-            return await self.timeout(voice, 30)
+            # return await self.timeout(voice)
         await self.play_helper(ctx, song_url)
 
     async def queue_helper(self, ctx, to_queue, no_message, pl_name=None, from_play=False):
@@ -194,13 +247,18 @@ class MusicPlayer(commands.Cog):
         except IndexError:
             await ctx.send("bug")
 
-    async def timeout(self, voice_client, secs_to_wait=3, secs_countdown=5):
+    async def timeout(self, voice_client, secs_to_wait=10, secs_countdown=10):
         await asyncio.sleep(secs_to_wait)
-        print("going to sleep")
+        print(voice_client.guild.name,"bot going to sleep")
         for i in range(secs_countdown,0,-1):
             print(i,end=' ',flush=True)
+            try:
+                self.guild_tracker[voice_client.guild.id]['pl'][0]
+                return
+            except IndexError:
+                pass
             await asyncio.sleep(1)
-        print("sleeping")
+        print(voice_client.guild.name,"bot sleeping")
         await self.leave_helper(voice_client)
 
 
@@ -217,8 +275,6 @@ class MusicPlayer(commands.Cog):
         self.skip_helper(voice_client)
         await asyncio.sleep(1)
         await voice_client.disconnect()
-
-
 
     @commands.command(name='Pause', brief="    -    `pause ", aliases=['pause'])
     async def pause(self, ctx):
@@ -362,4 +418,5 @@ class MusicPlayer(commands.Cog):
             elif(before.channel != after.channel):
                 print(member.name,"joined the voice channel",voice_client.channel)
         if(len(voice_client.channel.members) < 2):
+            print("solo nalang me")
             await self.timeout(voice_client)
