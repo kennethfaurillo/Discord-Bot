@@ -255,6 +255,17 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "isodate"
+version = "0.6.1"
+description = "An ISO 8601 date/time/duration parser and formatter"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "multidict"
 version = "6.0.4"
 description = "multidict implementation"
@@ -468,7 +479,7 @@ dev = ["pre-commit", "flake8", "yapf", "coverage", "sphinx", "sphinx-rtd-theme"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "0f57ab4978f5543b1f522d459fe9ba21d2602d670f2241dea3ec01d6d80e2614"
+content-hash = "e318873bfb7ca71d38e019968b6d5972af5d5b5578965ce107678e73109e6e94"
 
 [metadata.files]
 aiohttp = []
@@ -494,6 +505,7 @@ google-auth-httplib2 = [
 googleapis-common-protos = []
 httplib2 = []
 idna = []
+isodate = []
 multidict = []
 protobuf = []
 pyasn1 = [

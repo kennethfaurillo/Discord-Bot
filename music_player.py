@@ -3,6 +3,7 @@ import discord
 import random
 import json
 import os
+from time import time
 from table2ascii import table2ascii as t2a
 from discord.ext import commands
 from youtube_dl import YoutubeDL
@@ -11,8 +12,10 @@ from ytsearch import yt_search, lyrics_search
 
 class MusicPlayer(commands.Cog):
     ffmpeg_opts = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 3', 'options': '-vn'}
-    guild_tracker = {}  # 'guild_id': {'name': '', 'pl': []}}
+    guild_tracker = {}  # 'guild_id': {'name': '', 'pl': [], 'np': [title,url,lpt]}} lpt - last play time
     queue_chunk_size = 20
+    progress_done_str = '⚪'
+    progress_togo_str = '⚫'
 
     def __init__(self, client):
         self.client : discord.Client = client
@@ -47,9 +50,10 @@ class MusicPlayer(commands.Cog):
                         return
         # Allow ffmpeg to reconnect
         try:
-            self.guild_tracker[ctx.guild.id]['np'], song_url = self.guild_tracker[ctx.guild.id]['pl'].pop(0)
+            self.guild_tracker[ctx.guild.id]['np'] = self.guild_tracker[ctx.guild.id]['pl'].pop(0)
+            song_url = self.guild_tracker[ctx.guild.id]['np'][1]
         except IndexError:
-            self.guild_tracker[ctx.guild.id]['np'] = ''
+            self.guild_tracker[ctx.guild.id]['np'] = []
             print('ubos na playlist')
             # return await self.timeout(voice)
         await self.play_helper(ctx, song_url)
@@ -71,7 +75,7 @@ class MusicPlayer(commands.Cog):
                 for idx, x in enumerate(self.guild_tracker[ctx.guild.id]['pl'][start: end]):
                     songs += (str(start + idx + 1) + ':    ' + x[0] + '\n')
                 if voice and (voice.is_playing() or voice.is_paused()):
-                    title = f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np']}"
+                    title = f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np'][0]}"
                     embeds.append(discord.Embed(title=title, description=songs))
                 else:
                     embeds.append(discord.Embed(description=songs))
@@ -113,7 +117,7 @@ class MusicPlayer(commands.Cog):
     def add_to_tracker(self, ctx):
         if ctx.guild.id not in self.guild_tracker:
             print("adding", str(ctx.guild), 'to tracker')
-            self.guild_tracker[ctx.guild.id] = {'name': str(ctx.guild), 'pl': [], 'np': ''}
+            self.guild_tracker[ctx.guild.id] = {'name': str(ctx.guild), 'pl': [], 'np': []}
         else:
             # print(self.guild_tracker[ctx.guild.id]['name'], 'already in tracker')
             pass
@@ -128,7 +132,7 @@ class MusicPlayer(commands.Cog):
             return
         elif voice.is_playing():
             voice.pause()
-            embed = discord.Embed(title=f"Paused:    {self.guild_tracker[ctx.guild.id]['np']}")
+            embed = discord.Embed(title=f"Paused:    {self.guild_tracker[ctx.guild.id]['np'][0]}")
             await ctx.send(embed=embed, delete_after=60)
 
     @commands.command(name='Resume', brief="    -    `resume | `res ", aliases=['resume', 'res'])
@@ -152,7 +156,7 @@ class MusicPlayer(commands.Cog):
         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
         if voice and (voice.is_playing() or voice.is_paused()):
             if message:
-                embed = discord.Embed(title=f"Skipping {self.guild_tracker[ctx.guild.id]['np']}")
+                embed = discord.Embed(title=f"Skipping {self.guild_tracker[ctx.guild.id]['np'][0]}")
                 await ctx.send(embed=embed, delete_after=7.5)
             self.skip_helper(voice)
         else:
@@ -194,7 +198,12 @@ class MusicPlayer(commands.Cog):
 
     @commands.command(name="Now Playing", brief="    -    `np | `NP  ", aliases=['np', 'NP'])
     async def nowplaying(self, ctx):
-        embed = discord.Embed(title=f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np']}")
+        try:
+            progress = await self.progress_helper(ctx.guild.id)
+        except Exception as e:
+            print(e)
+        embed = discord.Embed(title=f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np'][0]}", description=progress)
+        print(progress)
         await ctx.send(embed=embed, delete_after=15)
 
     @commands.command(name="Remove", brief="    -    `remove | `rm | `r  ", aliases=['remove', 'r', 'R', 'rm'])
@@ -203,7 +212,7 @@ class MusicPlayer(commands.Cog):
             await ctx.send("???")
         try:
             if not song_index.isdigit():  # keyword is given
-                if song_index.lower() in self.guild_tracker[ctx.guild.id]['np'].lower():
+                if song_index.lower() in self.guild_tracker[ctx.guild.id]['np'][0].lower():
                     await ctx.send("cannot remove nagpplay, baka skip?")
                     return
                 song_index = self.keyword_to_index(song_index, ctx)
@@ -262,7 +271,7 @@ class MusicPlayer(commands.Cog):
         song_title, song_artist, song_lyrics = '','',''
         if keyword == '':
             try:
-                song_title, song_artist, song_lyrics = lyrics_search(self.guild_tracker[ctx.guild.id]['np'])
+                song_title, song_artist, song_lyrics = lyrics_search(self.guild_tracker[ctx.guild.id]['np'][0])
             except Exception as e:
                 print(e)
         else:
@@ -301,7 +310,7 @@ class MusicPlayer(commands.Cog):
                 await ctx.send(embed=embed)
                 return
         header = ['Song Title', '# of Plays']
-        songs = [[song, count] for song, count in chart_dict[guild_id].items()]
+        songs = sorted(chart_dict[guild_id].items(), key=lambda k:k[1],reverse=True)
         try:
             chart = t2a(header, songs, )
         except Exception as e:
@@ -336,7 +345,8 @@ class MusicPlayer(commands.Cog):
             song_url = YoutubeDL().extract_info(watch_url, download=False)['formats'][0]['url']
             voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **MusicPlayer.ffmpeg_opts),
                        after=lambda _: self.song_done_check(ctx))
-            embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"]}')
+            self.guild_tracker[ctx.guild.id]['lpt'] = time()
+            embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"][0]}')
             await ctx.send(embed=embed, delete_after=15)
         except discord.errors.ClientException as e:
             print(e)
@@ -352,7 +362,7 @@ class MusicPlayer(commands.Cog):
         for idx, (song_title, watch_url) in enumerate(zip(to_queue['titles'], to_queue['watch_urls'])):
             if pl_name and not idx:
                 if ctx.voice_client and from_play:
-                    self.guild_tracker[ctx.guild.id]['np'] = song_title
+                    self.guild_tracker[ctx.guild.id]['np'][0] = song_title
                     await self.play_helper(ctx, watch_url)
                     continue
             self.guild_tracker[ctx.guild.id]['pl'].append([song_title, watch_url])
@@ -363,7 +373,7 @@ class MusicPlayer(commands.Cog):
                 await ctx.send(embed=embed, delete_after=10)
 
     def update_chart(self, guild_id):
-        song = self.guild_tracker[guild_id]['np']
+        song = self.guild_tracker[guild_id]['np'][0]
         guild_id = str(guild_id)
         chart_dict = {}
         # open chart file, create if doesnt exist
@@ -408,10 +418,21 @@ class MusicPlayer(commands.Cog):
     
     def skip_helper(self, voice_client):
         voice_client.stop()
-        self.guild_tracker[voice_client.guild.id]['np'] = ''
+        self.guild_tracker[voice_client.guild.id]['np'][0] = ''
 
     def clear_helper(self, guild_id):
         self.guild_tracker[guild_id]['pl'].clear()
+    
+    async def progress_helper(self, guild_id):
+        song_duration = await yt_search(video_id=self.guild_tracker[guild_id]['np'][1].lstrip('https://youtube.com/watch?v='))
+        progress_done = round(time() - self.guild_tracker[guild_id]['lpt'])
+        progress_togo = round(song_duration - progress_done)
+        progres_perc = round(progress_done/song_duration, 2)
+        progress_done_blocks = int(progres_perc//.1) * self.progress_done_str
+        progress_togo_blocks = int(10 - len(progress_done_blocks)) * self.progress_togo_str
+        duration = f"{progress_done//60}:{progress_done%60} / {song_duration//60}:{song_duration%60} ⏯️ {progress_done_blocks}{progress_togo_blocks}"
+        return duration
+
 
     def keyword_to_index(self, keyword, ctx):
         lower_case_titles = [x[0].lower() for x in self.guild_tracker[ctx.guild.id]['pl']]
