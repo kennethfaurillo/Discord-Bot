@@ -6,12 +6,18 @@ import os
 from time import time
 from table2ascii import table2ascii as t2a
 from discord.ext import commands
-from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL
 from ytsearch import yt_search, lyrics_search
 
 
 class MusicPlayer(commands.Cog):
     ffmpeg_opts = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 3', 'options': '-vn'}
+    ydl_opts = {
+    'format': 'm4a/bestaudio/best',
+    'noplaylist': 'True',
+    'dump_single_json': 'True',
+    'extract_flat': 'True'
+    }
     guild_tracker = {}  # 'guild_id': {'name': '', 'pl': [], 'np': [title,url,lpt]}} lpt - last play time
     queue_chunk_size = 20
     progress_done_str = '⚪'
@@ -109,7 +115,6 @@ class MusicPlayer(commands.Cog):
         voice_channel = ctx.author.voice.channel
         if ctx.voice_client is None:
             await voice_channel.connect()
-
         else:
             await ctx.voice_client.move_to(voice_channel)
         return ctx.voice_client
@@ -342,7 +347,7 @@ class MusicPlayer(commands.Cog):
     async def play_helper(self, ctx, watch_url):
         voice = ctx.voice_client
         try:
-            song_url = YoutubeDL().extract_info(watch_url, download=False)['formats'][0]['url']
+            song_url = YoutubeDL(self.ydl_opts).extract_info(watch_url, download=False)['url']
             voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **MusicPlayer.ffmpeg_opts),
                        after=lambda _: self.song_done_check(ctx))
             self.guild_tracker[ctx.guild.id]['lpt'] = time()
@@ -454,4 +459,5 @@ class MusicPlayer(commands.Cog):
                 print(member.name,"joined the voice channel",voice_client.channel)
         if(len(voice_client.channel.members) < 2):
             print("solo nalang me")
+            # fix dis
             await self.timeout(voice_client)
