@@ -367,7 +367,7 @@ class MusicPlayer(commands.Cog):
         for idx, (song_title, watch_url) in enumerate(zip(to_queue['titles'], to_queue['watch_urls'])):
             if pl_name and not idx:
                 if ctx.voice_client and from_play:
-                    self.guild_tracker[ctx.guild.id]['np'][0] = song_title
+                    self.guild_tracker[ctx.guild.id]['np'] = [song_title, watch_url]
                     await self.play_helper(ctx, watch_url)
                     continue
             self.guild_tracker[ctx.guild.id]['pl'].append([song_title, watch_url])
