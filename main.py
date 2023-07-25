@@ -3,9 +3,12 @@ import re
 import random
 import asyncio
 import discord
+import logging
 from dotenv import load_dotenv
 from discord.ext import commands
 from datetime import datetime
+import time    
+epoch_time = int(time.time())
 import music_player
 
 load_dotenv()
@@ -13,7 +16,8 @@ load_dotenv()
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix="`", activity=discord.Game(name="dead"), intents=intents)
 guild_tracker = {'id': {}}
-
+handler = logging.FileHandler(filename=r'logs/discord'+str(int(time.time()))+'.log', encoding='utf-8', mode='w')
+discord.utils.setup_logging(handler=handler, level=logging.DEBUG)
 
 async def auto_reply(ctx, msg):
     ka_man = re.search(r'\b(hi|hello|hai|hoy|pota|hayop|cute|magayon|pogi|gwapo|makanos|chaka|test|patal|bahala|bala)\b', msg)

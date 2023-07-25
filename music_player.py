@@ -18,7 +18,7 @@ class MusicPlayer(commands.Cog):
     'dump_single_json': 'True',
     'extract_flat': 'True'
     }
-    guild_tracker = {}  # 'guild_id': {'name': '', 'pl': [], 'np': [title,url,lpt]}} lpt - last play time
+    guild_tracker = {}  # 'guild_id': {'name': '', 'pl': [], 'np': [title,url,po], 'st': Time} - start time, po - pause offset
     queue_chunk_size = 20
     progress_done_str = '⚪'
     progress_togo_str = '⚫'
@@ -137,6 +137,8 @@ class MusicPlayer(commands.Cog):
             return
         elif voice.is_playing():
             voice.pause()
+            pause_offset = round(time() - self.guild_tracker[ctx.guild.id]['lpt'])
+            self.guild_tracker[ctx.guild.id]['np'].append(pause_offset)
             embed = discord.Embed(title=f"Paused:    {self.guild_tracker[ctx.guild.id]['np'][0]}")
             await ctx.send(embed=embed, delete_after=60)
 
@@ -457,7 +459,7 @@ class MusicPlayer(commands.Cog):
                 print(member.name,"left the voice channel",voice_client.channel)
             elif(before.channel != after.channel):
                 print(member.name,"joined the voice channel",voice_client.channel)
-        if(len(voice_client.channel.members) < 2):
-            print("solo nalang me")
-            # fix dis
-            await self.timeout(voice_client)
+        # if(len(voice_client.channel.members) < 2):
+        #     print("solo nalang me")
+        #     # fix dis
+        #     await self.timeout(voice_client)

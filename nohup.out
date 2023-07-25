@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "/home/kenneth/coding/python/Discord-Bot/main.py", line 18, in <module>
+    discord.utils.setup_logging(log_handler=handler, log_level=logging.DEBUG)
+TypeError: setup_logging() got an unexpected keyword argument 'log_handler'
+Cerby Bot#2493 Live
+05:44 PM
+bawalsikenneth: kenne: test
+05:44 PM
+bawalsikenneth: Cerby Bot: test ka man
+Traceback (most recent call last):
+  File "/home/kenneth/.local/bin/poetry", line 5, in <module>
+    from poetry.console.application import main
+ModuleNotFoundError: No module named 'poetry'
+Cerby Bot#2493 Live
+03:17 AM
+bawalsikenneth: kenne: `p lofi live
+adding bawalsikenneth to tracker
+03:17 AM
+bawalsikenneth: Cerby Bot: https://www.youtube.com/watch?v=0x_9nlYeBuQ
+[youtube] Extracting URL: https://www.youtube.com/watch?v=0x_9nlYeBuQ
+[youtube] 0x_9nlYeBuQ: Downloading webpage
+[youtube] 0x_9nlYeBuQ: Downloading ios player API JSON
+[youtube] 0x_9nlYeBuQ: Downloading android player API JSON
+[youtube] 0x_9nlYeBuQ: Downloading m3u8 information
+[youtube] 0x_9nlYeBuQ: Downloading m3u8 information
+[youtube] 0x_9nlYeBuQ: Downloading m3u8 information
+03:17 AM
+bawalsikenneth: Cerby Bot: 
+kennethfau left the voice channel bruh
+kennethfau joined the voice channel bruh
+av_interleaved_write_frame(): Broken pipe
+Error writing trailer of pipe:1: Broken pipe
