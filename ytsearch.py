@@ -88,7 +88,7 @@ def lyrics_search(keyword):
         # special case, azlyrics doesnt like The Weeknd :(
         if 'Error' in song_lyrics:
             print("Lyrics not found! Trying again")
-            song_lyrics= lyrics(song_artist.lstrip('The '), song_title)
+            song_lyrics= lyrics(song_artist.removeprefix('The '), song_title)
         if 'Error' in song_lyrics:
             print("Lyrics not found!")
             return None, None, None

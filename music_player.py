@@ -176,7 +176,7 @@ class MusicPlayer(commands.Cog):
             await ctx.send("gib number plx")
             return
         try:
-            if song_index.lstrip('-').isdigit():
+            if song_index.removeprefix('-').isdigit():
                 song_index = int(song_index)
                 if song_index > len(self.guild_tracker[ctx.guild.id]['pl']): # if given index does not exist (> pl size)
                     raise IndexError
@@ -239,7 +239,7 @@ class MusicPlayer(commands.Cog):
 
     @commands.command(name='Move', brief="    -    `mv | `move", aliases=['move', 'mv'])
     async def move(self, ctx, source_index, dest_index):
-        if not source_index.lstrip('-').isdigit():  # keyword is given
+        if not source_index.removeprefix('-').isdigit():  # keyword is given
             source_index = self.keyword_to_index(source_index, ctx)
             if not isinstance(source_index, int):
                 await ctx.send(f"uda man {source_index}")
@@ -431,7 +431,7 @@ class MusicPlayer(commands.Cog):
         self.guild_tracker[guild_id]['pl'].clear()
     
     async def progress_helper(self, guild_id):
-        song_duration = await yt_search(video_id=self.guild_tracker[guild_id]['np'][1].lstrip('https://youtube.com/watch?v='))
+        song_duration = await yt_search(video_id=self.guild_tracker[guild_id]['np'][1].removeprefix('https://youtube.com/watch?v='))
         progress_done = round(time() - self.guild_tracker[guild_id]['lpt'])
         progress_togo = round(song_duration - progress_done)
         progres_perc = round(progress_done/song_duration, 2)
