@@ -317,12 +317,12 @@ class MusicPlayer(commands.Cog):
                 await ctx.send(embed=embed)
                 return
         header = ['Song Title', '# of Plays']
-        songs = sorted(chart_dict[guild_id].items(), key=lambda k:k[1],reverse=True)
+        songs = [(song[0][:25], song[1]) for song in sorted(chart_dict[guild_id].items(), key=lambda k:k[1],reverse=True)[:10]]
         try:
             chart = t2a(header, songs, )
         except Exception as e:
             print(e)
-        embed = discord.Embed(title="__**Top 10 Most Played Songs**__",description=f"```\n{chart}\n```")
+        embed = discord.Embed(title="Top 10 Most Played Songs",description=f"```\n{chart}\n```")
         await ctx.send(embed=embed)
 
     @commands.command(name="Commands", brief="    -    Shows this message", aliases=['commands'])
