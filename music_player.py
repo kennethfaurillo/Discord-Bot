@@ -334,6 +334,70 @@ class MusicPlayer(commands.Cog):
     async def _commands(self, ctx):
         await ctx.send_help()
 
+    # @commands.command(name="Soundboard", brief="To add/remove: `sb [add/remove] [label] [keyword/yt link] | To play: `sb label)", aliases=['sb'])
+    # async def soundboard(self, ctx, input=''):
+    #     # soundboard json not found
+    #     if not (os.path.isfile("soundboard.json") and os.path.getsize("soundboard.json")):
+    #         with open("soundboard.json", "w+") as f:
+    #             soundboard = {ctx.guild.id: {}}
+    #             f.write(json.dumps(soundboard))
+    #     if not input:
+    #        await ctx.send("To add/remove: `sb [add/remove] [label] [yt link]"+'\n'+
+    #                       "To play: `sb label")
+    #        return
+    #     input = input.split(' ', 2)
+    #     soundboard = {}
+    #     with open("soundboard.json", "a+") as f:
+    #         f.seek(0)
+    #         if os.path.getsize("soundboard.json"):
+    #             soundboard = json.loads(f.read())
+    #     # guild not in soundboard
+    #     if ctx.guild.id not in soundboard:
+    #         soundboard_guild = {}
+    #         soundboard[ctx.guild.id] = soundboard_guild
+    #     else:
+    #         soundboard_guild = soundboard[ctx.guild.id]
+
+    #     if len(input) == 1:
+    #         # [label]
+    #         # check if label in 
+    #         if
+    #         pass
+    #     elif len(input) == 2:
+    #         # [remove] [label]
+    #         pass
+    #     elif len(input) == 3:
+    #         # [add] [label] [yt_link]
+    #         pass
+    #         # check sb
+
+
+
+        # # if len 2
+        # if len(input) == 2:
+        # if len(input > 1):
+        #     action, keyword = input.split(' ', 1)
+        #     if action == 'add':
+        #         if(keyword)
+        #         # add sb
+        #             # check if already
+        #         pass
+        #     elif action == 'remove':
+        #         # remove sb
+        #         pass
+        #     else:
+        #         await ctx.send("wat?")
+        #         return
+        # else:
+        #     if input.lower() in ['add', 'remove']:
+        #         await ctx.send(f'{input} what?')
+        #         return
+        #     # check if existing
+        #     # if
+        #     # pass
+        #     # if not
+        #     await ctx.send(f"{keyword} not found! Add mo muna?")
+
     # Helper Methods
 
     def song_done_check(self, ctx):
@@ -351,7 +415,7 @@ class MusicPlayer(commands.Cog):
         self.update_chart(ctx.guild.id)
         await self.play(ctx, autoplay=True)
 
-    def cache_check(self, watch_url) -> (int, str):
+    def cache_check(self, watch_url, filesize_limit=500_000_000, duration_limit=1800) -> (int, str):
         # Returns: is_cached: int, source: str
         # -1 : uncacheable (too large, livestream), song_url
         # 0  : no cache, will cache, song_url
@@ -368,11 +432,11 @@ class MusicPlayer(commands.Cog):
         filesize = yt_info['filesize'] # in bytes
         duration = yt_info['duration']
         print(f"Filesize: {filesize/1e6} MB\nWatchURL: {watch_url}\nSongURL: {song_url[:30]+'...'}\nDuration: {duration}s")
-        if(filesize < 500_000_000):
+        if(filesize < filesize_limit and duration < duration_limit):
             print("No cache, will cache")
             return 0, song_url
         else:
-            print("No cache, won't cache, too large")
+            print("No cache, won't cache, too large/long")
             return -1, song_url
 
     def cacher(self, watch_url):
