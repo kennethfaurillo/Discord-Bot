@@ -77,7 +77,8 @@ async def yt_search(**kwargs):
 
 def lyrics_search(keyword):
         ytmusic = YTMusic('headers_auth.json')
-        search_results = ytmusic.search(keyword)[0]
+        search_results = ytmusic.search(keyword,'songs')[0]
+        print(search_results)
         song_title = search_results['title']
         song_artist = search_results['artists'][0]['name']
 
