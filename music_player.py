@@ -3,6 +3,7 @@ import discord
 import random
 import json
 import os
+import copy
 from time import time
 from table2ascii import table2ascii as t2a
 from discord.ext import commands
@@ -88,7 +89,11 @@ class MusicPlayer(commands.Cog):
                 if queue_chunk == range(queue_chunks_count)[-1]:
                     break
             else:
-                await ctx.send(embed=discord.Embed(title="uda na kanta"))
+                if (self.guild_tracker[ctx.guild.id]['np']):
+                    title = f"Now Playing:    {self.guild_tracker[ctx.guild.id]['np'][0]}"
+                else:
+                    title = "Uda na kanta"
+                await ctx.send(embed=discord.Embed(title=title))
 
             for embed in embeds:
                 await ctx.send(embed=embed, delete_after=120)
@@ -329,6 +334,70 @@ class MusicPlayer(commands.Cog):
     async def _commands(self, ctx):
         await ctx.send_help()
 
+    # @commands.command(name="Soundboard", brief="To add/remove: `sb [add/remove] [label] [keyword/yt link] | To play: `sb label)", aliases=['sb'])
+    # async def soundboard(self, ctx, input=''):
+    #     # soundboard json not found
+    #     if not (os.path.isfile("soundboard.json") and os.path.getsize("soundboard.json")):
+    #         with open("soundboard.json", "w+") as f:
+    #             soundboard = {ctx.guild.id: {}}
+    #             f.write(json.dumps(soundboard))
+    #     if not input:
+    #        await ctx.send("To add/remove: `sb [add/remove] [label] [yt link]"+'\n'+
+    #                       "To play: `sb label")
+    #        return
+    #     input = input.split(' ', 2)
+    #     soundboard = {}
+    #     with open("soundboard.json", "a+") as f:
+    #         f.seek(0)
+    #         if os.path.getsize("soundboard.json"):
+    #             soundboard = json.loads(f.read())
+    #     # guild not in soundboard
+    #     if ctx.guild.id not in soundboard:
+    #         soundboard_guild = {}
+    #         soundboard[ctx.guild.id] = soundboard_guild
+    #     else:
+    #         soundboard_guild = soundboard[ctx.guild.id]
+
+    #     if len(input) == 1:
+    #         # [label]
+    #         # check if label in 
+    #         if
+    #         pass
+    #     elif len(input) == 2:
+    #         # [remove] [label]
+    #         pass
+    #     elif len(input) == 3:
+    #         # [add] [label] [yt_link]
+    #         pass
+    #         # check sb
+
+
+
+        # # if len 2
+        # if len(input) == 2:
+        # if len(input > 1):
+        #     action, keyword = input.split(' ', 1)
+        #     if action == 'add':
+        #         if(keyword)
+        #         # add sb
+        #             # check if already
+        #         pass
+        #     elif action == 'remove':
+        #         # remove sb
+        #         pass
+        #     else:
+        #         await ctx.send("wat?")
+        #         return
+        # else:
+        #     if input.lower() in ['add', 'remove']:
+        #         await ctx.send(f'{input} what?')
+        #         return
+        #     # check if existing
+        #     # if
+        #     # pass
+        #     # if not
+        #     await ctx.send(f"{keyword} not found! Add mo muna?")
+
     # Helper Methods
 
     def song_done_check(self, ctx):
@@ -346,16 +415,54 @@ class MusicPlayer(commands.Cog):
         self.update_chart(ctx.guild.id)
         await self.play(ctx, autoplay=True)
 
+    def cache_check(self, watch_url, filesize_limit=500_000_000, duration_limit=1800) -> (int, str):
+        # Returns: is_cached: int, source: str
+        # -1 : uncacheable (too large, livestream), song_url
+        # 0  : no cache, will cache, song_url
+        # 1  : cache found, file_local_path
+        song_id = watch_url.removeprefix("https://www.youtube.com/watch?v=")[:11]
+        if os.path.isfile(f'./cache/audio/{song_id}'):
+            print("Local cache found!")
+            return 1, f'./cache/audio/{song_id}'
+        yt_info = YoutubeDL(self.ydl_opts).extract_info(watch_url, download=False)
+        song_url = yt_info['url']
+        if yt_info['is_live' or yt_info['was_live']]:
+            print("Live video/audio, not caching")
+            return -1, song_url
+        filesize = yt_info['filesize'] # in bytes
+        duration = yt_info['duration']
+        print(f"Filesize: {filesize/1e6} MB\nWatchURL: {watch_url}\nSongURL: {song_url[:30]+'...'}\nDuration: {duration}s")
+        if(filesize < filesize_limit and duration < duration_limit):
+            print("No cache, will cache")
+            return 0, song_url
+        else:
+            print("No cache, won't cache, too large/long")
+            return -1, song_url
+
+    def cacher(self, watch_url):
+        print("Caching...")
+        new_ydl_opts = copy.deepcopy(self.ydl_opts)
+        new_ydl_opts['outtmpl'] = f'cache/audio/{watch_url.removeprefix("https://www.youtube.com/watch?v=")}'
+        new_ydl_opts['dump_single_json'] = False
+        YoutubeDL(new_ydl_opts).download([watch_url])
+        return 0
+    
     async def play_helper(self, ctx, watch_url):
         voice = ctx.voice_client
+        cache_status, source = self.cache_check(watch_url)
         try:
-            song_url = YoutubeDL(self.ydl_opts).extract_info(watch_url, download=False)['url']
-            voice.play(await discord.FFmpegOpusAudio.from_probe(song_url, **MusicPlayer.ffmpeg_opts),
-                       after=lambda _: self.song_done_check(ctx))
+            # source = "./cache/audio/2Ov-zIx0gZ8.webm"
+            if source.startswith('./'):
+                voice.play(discord.FFmpegPCMAudio(source))
+            else:
+                voice.play(await discord.FFmpegOpusAudio.from_probe(source, method='fallback',**MusicPlayer.ffmpeg_opts),
+                        after=lambda _: self.song_done_check(ctx))
+            if cache_status == 0:
+                self.cacher(watch_url)
             self.guild_tracker[ctx.guild.id]['lpt'] = time()
             embed = discord.Embed(title=f'Now Playing:    {self.guild_tracker[ctx.guild.id]["np"][0]}')
             await ctx.send(embed=embed, delete_after=15)
-        except discord.errors.ClientException as e:
+        except discord.errors.ClientException as E:
             print(e)
             await ctx.send('wait lang', delete_after=10)
             pass
@@ -433,7 +540,6 @@ class MusicPlayer(commands.Cog):
     async def progress_helper(self, guild_id):
         song_duration = await yt_search(video_id=self.guild_tracker[guild_id]['np'][1].removeprefix('https://youtube.com/watch?v='))
         progress_done = round(time() - self.guild_tracker[guild_id]['lpt'])
-        progress_togo = round(song_duration - progress_done)
         progres_perc = round(progress_done/song_duration, 2)
         progress_done_blocks = int(progres_perc//.1) * self.progress_done_str
         progress_togo_blocks = int(10 - len(progress_done_blocks)) * self.progress_togo_str
@@ -459,7 +565,3 @@ class MusicPlayer(commands.Cog):
                 print(member.name,"left the voice channel",voice_client.channel)
             elif(before.channel != after.channel):
                 print(member.name,"joined the voice channel",voice_client.channel)
-        # if(len(voice_client.channel.members) < 2):
-        #     print("solo nalang me")
-        #     # fix dis
-        #     await self.timeout(voice_client)
